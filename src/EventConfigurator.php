@@ -26,6 +26,7 @@ final class EventConfigurator extends AbstractProviderConfigurator
      * @suppress PhanAccessMethodProtected
      *
      * @param array $eventListeners Event listener list in format ['eventName1' => [$listener1, $listener2, ...]]
+     *
      * @throws InvalidEventConfigurationFormatException
      * @throws InvalidListenerConfigurationException
      */
