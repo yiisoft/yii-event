@@ -54,11 +54,12 @@ final class EventConfigurator extends AbstractProviderConfigurator
                         );
                     }
                 } catch (ContainerExceptionInterface $exception) {
-                    $message = "Could not instantiate event listener or listener class has invalid configuration.";
-
-                    throw new InvalidListenerConfigurationException($message, 0, $exception);
+                    throw new InvalidListenerConfigurationException(
+                        "Could not instantiate event listener or listener class has invalid configuration.",
+                        0,
+                        $exception
+                    );
                 }
-
 
                 if (is_array($callable) && !is_object($callable[0])) {
                     $callable = [$this->container->get($callable[0]), $callable[1]];
@@ -66,7 +67,7 @@ final class EventConfigurator extends AbstractProviderConfigurator
 
                 $this->listenerProvider
                     ->attach(
-                        fn ($event) => (new Injector($this->container))->invoke($callable, [$event]),
+                        fn($event) => (new Injector($this->container))->invoke($callable, [$event]),
                         $eventName
                     );
             }
