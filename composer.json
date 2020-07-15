@@ -1,23 +1,27 @@
 {
-    "name": "yiisoft/_____",
+    "name": "yiisoft/yii-event",
     "type": "library",
-    "description": "_____",
+    "description": "Yii Event",
     "keywords": [
-        "_____"
+        "yii3",
+        "event"
     ],
     "homepage": "https://www.yiiframework.com/",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/_____/issues?state=open",
+        "issues": "https://github.com/yiisoft/yii-event/issues?state=open",
         "forum": "https://www.yiiframework.com/forum/",
         "wiki": "https://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/_____"
+        "source": "https://github.com/yiisoft/yii-event"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4|^8.0"
+        "php": "^7.4|^8.0",
+        "yiisoft/friendly-exception": "^1.0",
+        "yiisoft/injector": "^1.0",
+        "yiisoft/event-dispatcher": "^3.0@dev"
     },
     "require-dev": {
         "infection/infection": "^0.16.3",
@@ -26,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yiisoft\\_____\\": "src"
+            "Yiisoft\\Yii\\Event\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yiisoft\\_____\\Tests\\": "tests"
+            "Yiisoft\\Yii\\Event\\Tests\\": "tests"
         }
     },
     "extra": {
