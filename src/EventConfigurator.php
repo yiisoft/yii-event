@@ -32,6 +32,8 @@ final class EventConfigurator extends AbstractProviderConfigurator
      */
     public function registerListeners(array $eventListeners): void
     {
+        $injector = new Injector($this->container);
+
         foreach ($eventListeners as $eventName => $listeners) {
             if (!is_string($eventName)) {
                 throw new InvalidEventConfigurationFormatException(
@@ -70,7 +72,7 @@ final class EventConfigurator extends AbstractProviderConfigurator
 
                 $this->listenerProvider
                     ->attach(
-                        fn($event) => (new Injector($this->container))->invoke($callable, [$event]),
+                        static fn($event) => $injector->invoke($callable, [$event]),
                         $eventName
                     );
             }
