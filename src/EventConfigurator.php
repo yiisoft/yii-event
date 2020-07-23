@@ -32,7 +32,7 @@ final class EventConfigurator extends AbstractProviderConfigurator
      */
     public function registerListeners(array $eventListeners): void
     {
-        $injector = (new Injector($this->container));
+        $injector = new Injector($this->container);
 
         foreach ($eventListeners as $eventName => $listeners) {
             if (!is_string($eventName)) {
@@ -72,7 +72,7 @@ final class EventConfigurator extends AbstractProviderConfigurator
 
                 $this->listenerProvider
                     ->attach(
-                        fn($event) => $injector->invoke($callable, [$event]),
+                        static fn($event) => $injector->invoke($callable, [$event]),
                         $eventName
                     );
             }
