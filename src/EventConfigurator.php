@@ -72,7 +72,7 @@ final class EventConfigurator extends AbstractProviderConfigurator
                         $callable = [$container->get($callable[0]), $callable[1]];
                     }
 
-                    $injector->invoke($callable, [$event]);
+                    return $injector->invoke($callable, [$event]);
                 };
                 $this->listenerProvider->attach($listener, $eventName);
             }
