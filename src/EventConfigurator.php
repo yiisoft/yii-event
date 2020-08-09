@@ -6,11 +6,10 @@ namespace Yiisoft\Yii\Event;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Yiisoft\EventDispatcher\Provider\AbstractProviderConfigurator;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Injector\Injector;
 
-final class EventConfigurator extends AbstractProviderConfigurator
+final class EventConfigurator
 {
     private Provider $listenerProvider;
 
@@ -77,6 +76,8 @@ final class EventConfigurator extends AbstractProviderConfigurator
                 $this->listenerProvider->attach($listener, $eventName);
             }
         }
+
+        $this->listenerProvider->lock();
     }
 
     private function isCallable($definition): bool
