@@ -5,36 +5,37 @@ declare(strict_types=1);
 namespace Yiisoft\Yii\Event;
 
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
+use Yiisoft\Di\Container;
+use Yiisoft\Di\Support\ServiceProvider;
+use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
+use Yiisoft\EventDispatcher\Provider\ListenerCollection;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Injector\Injector;
 
-final class EventConfigurator
+final class EventDispatcherProvider extends ServiceProvider
 {
-    private Provider $listenerProvider;
+    private array $eventListeners;
 
-    private ContainerInterface $container;
-
-    public function __construct(Provider $listenerProvider, ContainerInterface $container)
+    /**
+     * @param array $eventListeners Event listener list in format ['eventName1' => [$listener1, $listener2, ...]]
+     */
+    public function __construct(array $eventListeners)
     {
-        $this->listenerProvider = $listenerProvider;
-        $this->container = $container;
+        $this->eventListeners = $eventListeners;
     }
 
     /**
      * @suppress PhanAccessMethodProtected
-     *
-     * @param array $eventListeners Event listener list in format ['eventName1' => [$listener1, $listener2, ...]]
-     *
-     * @throws InvalidEventConfigurationFormatException
-     * @throws InvalidListenerConfigurationException
      */
-    public function registerListeners(array $eventListeners): void
+    public function register(Container $container): void
     {
-        $container = $this->container;
+        $listenerCollection = new ListenerCollection();
+
         $injector = new Injector($container);
 
-        foreach ($eventListeners as $eventName => $listeners) {
+        foreach ($this->eventListeners as $eventName => $listeners) {
             if (!is_string($eventName)) {
                 throw new InvalidEventConfigurationFormatException(
                     'Incorrect event listener format. Format with event name must be used.'
@@ -42,7 +43,7 @@ final class EventConfigurator
             }
 
             if (!is_array($listeners)) {
-                $type = $this->isCallable($listeners) ? 'callable' : gettype($listeners);
+                $type = $this->isCallable($listeners, $container) ? 'callable' : gettype($listeners);
 
                 throw new InvalidEventConfigurationFormatException(
                     "Event listeners for $eventName must be an array, $type given."
@@ -51,7 +52,7 @@ final class EventConfigurator
 
             foreach ($listeners as $callable) {
                 try {
-                    if (!$this->isCallable($callable)) {
+                    if (!$this->isCallable($callable, $container)) {
                         $type = gettype($listeners);
 
                         throw new InvalidListenerConfigurationException(
@@ -73,14 +74,17 @@ final class EventConfigurator
 
                     return $injector->invoke($callable, [$event]);
                 };
-                $this->listenerProvider->attach($listener, $eventName);
+                $listenerCollection = $listenerCollection->add($listener, $eventName);
             }
         }
 
-        $this->listenerProvider->lock();
+        $provider = new Provider($listenerCollection);
+
+        $container->set(ListenerProviderInterface::class, $provider);
+        $container->set(EventDispatcherInterface::class, Dispatcher::class);
     }
 
-    private function isCallable($definition): bool
+    private function isCallable($definition, Container $container): bool
     {
         if (is_callable($definition)) {
             return true;
@@ -90,9 +94,9 @@ final class EventConfigurator
             is_array($definition)
             && array_keys($definition) === [0, 1]
             && is_string($definition[0])
-            && $this->container->has($definition[0])
+            && $container->has($definition[0])
         ) {
-            $object = $this->container->get($definition[0]);
+            $object = $container->get($definition[0]);
 
             return method_exists($object, $definition[1]);
         }
