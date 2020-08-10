@@ -19,6 +19,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4|^8.0",
+        "yiisoft/di": "^3.0@dev",
         "yiisoft/friendly-exception": "^1.0",
         "yiisoft/injector": "^1.0",
         "yiisoft/event-dispatcher": "^3.0@dev"
