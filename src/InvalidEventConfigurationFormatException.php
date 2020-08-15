@@ -9,17 +9,11 @@ use Yiisoft\FriendlyException\FriendlyExceptionInterface;
 
 class InvalidEventConfigurationFormatException extends InvalidArgumentException implements FriendlyExceptionInterface
 {
-    /**
-     * @inheritDoc
-     */
     public function getName(): string
     {
         return 'Configuration format passed to EventConfigurator is invalid';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSolution(): ?string
     {
         return <<<SOLUTION
