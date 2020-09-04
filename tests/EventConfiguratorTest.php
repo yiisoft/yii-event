@@ -9,6 +9,8 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 use Yiisoft\Di\Container;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Yii\Event\EventDispatcherProvider;
+use Yiisoft\Yii\Event\InvalidEventConfigurationFormatException;
+use Yiisoft\Yii\Event\InvalidListenerConfigurationException;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
 final class EventConfiguratorTest extends TestCase
@@ -51,6 +53,30 @@ final class EventConfiguratorTest extends TestCase
         $listeners[0]($event);
 
         $this->assertInstanceOf(TestClass::class, $event->registered()[0]);
+    }
+
+    public function testInvalidEventConfigurationFormatExceptionWhenConfigurationKeyIsInteger(): void
+    {
+        $serviceProvider = new EventDispatcherProvider([
+            'test'
+        ]);
+
+        $this->expectException(InvalidEventConfigurationFormatException::class);
+        $this->expectExceptionMessage('Incorrect event listener format. Format with event name must be used.');
+
+        $serviceProvider->register(new Container());
+    }
+
+    public function testInvalidEventConfigurationFormatExceptionWhenConfigurationValueIsBad():void
+    {
+        $serviceProvider = new EventDispatcherProvider([
+            'test' => new \stdClass(),
+        ]);
+
+        $this->expectException(InvalidEventConfigurationFormatException::class);
+        $this->expectExceptionMessage('Event listeners for test must be an array, object given.');
+
+        $serviceProvider->register(new Container());
     }
 
     private function getEventsConfig(): array
