@@ -26,9 +26,6 @@ final class EventDispatcherProvider extends ServiceProvider
         $this->eventListeners = $eventListeners;
     }
 
-    /**
-     * @suppress PhanAccessMethodProtected
-     */
     public function register(Container $container): void
     {
         $listenerCollection = new ListenerCollection();
@@ -80,7 +77,10 @@ final class EventDispatcherProvider extends ServiceProvider
 
         $provider = new Provider($listenerCollection);
 
+        /** @psalm-suppress InaccessibleMethod */
         $container->set(ListenerProviderInterface::class, $provider);
+
+        /** @psalm-suppress InaccessibleMethod */
         $container->set(EventDispatcherInterface::class, Dispatcher::class);
     }
 
