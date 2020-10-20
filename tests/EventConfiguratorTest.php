@@ -7,7 +7,6 @@ namespace Yiisoft\Yii\Event\Tests;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Yiisoft\Di\Container;
-use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Yii\Event\EventDispatcherProvider;
 use Yiisoft\Yii\Event\InvalidEventConfigurationFormatException;
 use Yiisoft\Yii\Event\InvalidListenerConfigurationException;
@@ -67,7 +66,7 @@ final class EventConfiguratorTest extends TestCase
         $serviceProvider->register(new Container());
     }
 
-    public function testInvalidEventConfigurationFormatExceptionWhenConfigurationValueIsBad():void
+    public function testInvalidEventConfigurationFormatExceptionWhenConfigurationValueIsBad(): void
     {
         $serviceProvider = new EventDispatcherProvider([
             'test' => new \stdClass(),
@@ -75,6 +74,20 @@ final class EventConfiguratorTest extends TestCase
 
         $this->expectException(InvalidEventConfigurationFormatException::class);
         $this->expectExceptionMessage('Event listeners for test must be an array, object given.');
+
+        $serviceProvider->register(new Container());
+    }
+
+    public function testInvalidEventConfigurationFormatExceptionWhenListenerIsBad(): void
+    {
+        $serviceProvider = new EventDispatcherProvider([
+            'test' => [
+                new \stdClass(),
+            ],
+        ]);
+
+        $this->expectException(InvalidListenerConfigurationException::class);
+        $this->expectExceptionMessage('Listener must be a callable, object given.');
 
         $serviceProvider->register(new Container());
     }

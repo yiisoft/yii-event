@@ -50,10 +50,10 @@ final class EventDispatcherProvider extends ServiceProvider
             foreach ($listeners as $callable) {
                 try {
                     if (!$this->isCallable($callable, $container)) {
-                        $type = gettype($listeners);
+                        $type = gettype($callable);
 
                         throw new InvalidListenerConfigurationException(
-                            "Listener must be a callable. $type given."
+                            "Listener must be a callable, $type given."
                         );
                     }
                 } catch (ContainerExceptionInterface $exception) {
