@@ -48,6 +48,7 @@ final class EventDispatcherProvider extends ServiceProvider
             }
 
             foreach ($listeners as $callable) {
+                /** @psalm-suppress InvalidCatch */
                 try {
                     if (!$this->isCallable($callable, $container)) {
                         $type = gettype($callable);
