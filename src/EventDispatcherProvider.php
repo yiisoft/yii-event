@@ -26,9 +26,6 @@ final class EventDispatcherProvider extends ServiceProvider
         $this->eventListeners = $eventListeners;
     }
 
-    /**
-     * @suppress PhanAccessMethodProtected
-     */
     public function register(Container $container): void
     {
         $listenerCollection = new ListenerCollection();
@@ -51,12 +48,13 @@ final class EventDispatcherProvider extends ServiceProvider
             }
 
             foreach ($listeners as $callable) {
+                /** @psalm-suppress InvalidCatch */
                 try {
                     if (!$this->isCallable($callable, $container)) {
-                        $type = gettype($listeners);
+                        $type = gettype($callable);
 
                         throw new InvalidListenerConfigurationException(
-                            "Listener must be a callable. $type given."
+                            "Listener must be a callable, $type given."
                         );
                     }
                 } catch (ContainerExceptionInterface $exception) {
@@ -80,7 +78,10 @@ final class EventDispatcherProvider extends ServiceProvider
 
         $provider = new Provider($listenerCollection);
 
+        /** @psalm-suppress InaccessibleMethod */
         $container->set(ListenerProviderInterface::class, $provider);
+
+        /** @psalm-suppress InaccessibleMethod */
         $container->set(EventDispatcherInterface::class, Dispatcher::class);
     }
 
