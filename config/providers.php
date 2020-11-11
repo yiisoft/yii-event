@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Arrays\Modifier\ReverseBlockMerge;
 use Yiisoft\Composer\Config\Builder;
 use Yiisoft\Yii\Event\EventDispatcherProvider;
 
@@ -11,6 +10,4 @@ return [
         '__class' => EventDispatcherProvider::class,
         '__construct()' => [Builder::require('events')]
     ],
-
-    ReverseBlockMerge::class => new ReverseBlockMerge(),
 ];
