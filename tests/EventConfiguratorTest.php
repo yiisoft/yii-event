@@ -7,7 +7,7 @@ namespace Yiisoft\Yii\Event\Tests;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Yiisoft\Di\Container;
-use Yiisoft\Yii\Event\EventDispatcherProvider;
+use Yiisoft\Yii\Event\ListenerCollectionFactory;
 use Yiisoft\Yii\Event\InvalidEventConfigurationFormatException;
 use Yiisoft\Yii\Event\InvalidListenerConfigurationException;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
@@ -17,7 +17,7 @@ final class EventConfiguratorTest extends TestCase
     public function testAddEventListeners(): void
     {
         $eventConfig = $this->getEventsConfig();
-        $serviceProvider = new EventDispatcherProvider($eventConfig);
+        $serviceProvider = new ListenerCollectionFactory($eventConfig);
 
         $event = new Event();
 
@@ -38,7 +38,7 @@ final class EventConfiguratorTest extends TestCase
     public function testAddEventListenerInjection(): void
     {
         $eventConfig = $this->getEventsConfigWithDependency();
-        $serviceProvider = new EventDispatcherProvider($eventConfig);
+        $serviceProvider = new ListenerCollectionFactory($eventConfig);
 
         $event = new Event();
 
@@ -56,7 +56,7 @@ final class EventConfiguratorTest extends TestCase
 
     public function testInvalidEventConfigurationFormatExceptionWhenConfigurationKeyIsInteger(): void
     {
-        $serviceProvider = new EventDispatcherProvider([
+        $serviceProvider = new ListenerCollectionFactory([
             'test'
         ]);
 
@@ -68,7 +68,7 @@ final class EventConfiguratorTest extends TestCase
 
     public function testInvalidEventConfigurationFormatExceptionWhenConfigurationValueIsBad(): void
     {
-        $serviceProvider = new EventDispatcherProvider([
+        $serviceProvider = new ListenerCollectionFactory([
             'test' => new \stdClass(),
         ]);
 
@@ -80,7 +80,7 @@ final class EventConfiguratorTest extends TestCase
 
     public function testInvalidEventConfigurationFormatExceptionWhenListenerIsBad(): void
     {
-        $serviceProvider = new EventDispatcherProvider([
+        $serviceProvider = new ListenerCollectionFactory([
             'test' => [
                 new \stdClass(),
             ],
