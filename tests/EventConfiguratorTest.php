@@ -4,51 +4,52 @@ declare(strict_types=1);
 
 namespace Yiisoft\Yii\Event\Tests;
 
+use Closure;
 use PHPUnit\Framework\TestCase;
-use Psr\EventDispatcher\ListenerProviderInterface;
-use Yiisoft\Di\Container;
-use Yiisoft\Yii\Event\ListenerCollectionFactory;
+use stdClass;
+use Yiisoft\EventDispatcher\Provider\ListenerCollection;
+use Yiisoft\Injector\Injector;
+use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Yii\Event\InvalidEventConfigurationFormatException;
 use Yiisoft\Yii\Event\InvalidListenerConfigurationException;
+use Yiisoft\Yii\Event\ListenerCollectionFactory;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
 final class EventConfiguratorTest extends TestCase
 {
+    private SimpleContainer $container;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->container = new SimpleContainer(
+            [
+                Event::class => new Event(),
+                'eventAlias' => new Event(),
+                TestClass::class => new TestClass(),
+            ]
+        );
+    }
+
     public function testAddEventListeners(): void
     {
-        $eventConfig = $this->getEventsConfig();
-        $serviceProvider = new ListenerCollectionFactory($eventConfig);
+        $listenerCollection = $this->getListenerCollection($this->getEventsConfig());
 
-        $event = new Event();
-
-        $container = new Container(
-            [Event::class => new Event(), 'eventAlias' => new Event()],
-            [$serviceProvider]
-        );
-
-        $provider = $container->get(ListenerProviderInterface::class);
-        $listeners = iterator_to_array($provider->getListenersForEvent($event));
+        $listeners = iterator_to_array($listenerCollection->getForEvents(Event::class));
 
         $this->assertCount(3, $listeners);
         foreach ($listeners as $listener) {
-            $this->assertInstanceOf(\Closure::class, $listener);
+            $this->assertInstanceOf(Closure::class, $listener);
         }
     }
 
     public function testAddEventListenerInjection(): void
     {
-        $eventConfig = $this->getEventsConfigWithDependency();
-        $serviceProvider = new ListenerCollectionFactory($eventConfig);
+        $event = $this->container->get(Event::class);
+        $listenerCollection = $this->getListenerCollection($this->getEventsConfigWithDependency());
 
-        $event = new Event();
-
-        $container = new Container(
-            [Event::class => new Event(), TestClass::class => new TestClass()],
-            [$serviceProvider]
-        );
-
-        $provider = $container->get(ListenerProviderInterface::class);
-        $listeners = iterator_to_array($provider->getListenersForEvent($event));
+        $listeners = iterator_to_array($listenerCollection->getForEvents(Event::class));
         $listeners[0]($event);
 
         $this->assertInstanceOf(TestClass::class, $event->registered()[0]);
@@ -56,40 +57,31 @@ final class EventConfiguratorTest extends TestCase
 
     public function testInvalidEventConfigurationFormatExceptionWhenConfigurationKeyIsInteger(): void
     {
-        $serviceProvider = new ListenerCollectionFactory([
-            'test'
-        ]);
-
         $this->expectException(InvalidEventConfigurationFormatException::class);
         $this->expectExceptionMessage('Incorrect event listener format. Format with event name must be used.');
 
-        $serviceProvider->register(new Container());
+        $this->getListenerCollection(['test']);
     }
 
     public function testInvalidEventConfigurationFormatExceptionWhenConfigurationValueIsBad(): void
     {
-        $serviceProvider = new ListenerCollectionFactory([
-            'test' => new \stdClass(),
-        ]);
-
         $this->expectException(InvalidEventConfigurationFormatException::class);
         $this->expectExceptionMessage('Event listeners for test must be an array, object given.');
-
-        $serviceProvider->register(new Container());
+        $this->getListenerCollection(['test' => new stdClass()], true);
     }
 
     public function testInvalidEventConfigurationFormatExceptionWhenListenerIsBad(): void
     {
-        $serviceProvider = new ListenerCollectionFactory([
-            'test' => [
-                new \stdClass(),
-            ],
-        ]);
-
         $this->expectException(InvalidListenerConfigurationException::class);
         $this->expectExceptionMessage('Listener must be a callable, object given.');
 
-        $serviceProvider->register(new Container());
+        $this->getListenerCollection(['test' => [new stdClass()]], true);
+    }
+
+    public function testInvalidEventConfigurationFormatNoExceptionWhenListenerIsBad(): void
+    {
+        $listenerCollection = $this->getListenerCollection(['test' => [new stdClass()]], false);
+        $this->assertInstanceOf(ListenerCollection::class, $listenerCollection);
     }
 
     private function getEventsConfig(): array
@@ -98,7 +90,7 @@ final class EventConfiguratorTest extends TestCase
             Event::class => [
                 [Event::class, 'register'],
                 static function (Event $event) {
-                    $event->register(1);
+                    $event->register(new stdClass());
                 },
                 ['eventAlias', 'register']
             ],
@@ -114,5 +106,12 @@ final class EventConfiguratorTest extends TestCase
                 },
             ],
         ];
+    }
+
+    private function getListenerCollection(array $eventConfig, bool $precheck = false): ListenerCollection
+    {
+        $factory = new ListenerCollectionFactory(new Injector($this->container), $this->container);
+
+        return $factory->create($eventConfig, $precheck);
     }
 }

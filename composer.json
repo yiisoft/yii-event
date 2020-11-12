@@ -27,7 +27,8 @@
     "require-dev": {
         "infection/infection": "^0.18.0",
         "phpunit/phpunit": "^9.4",
-        "vimeo/psalm": "^4.0"
+        "vimeo/psalm": "^4.0",
+        "yiisoft/test-support": "3.0.x-dev"
     },
     "autoload": {
         "psr-4": {

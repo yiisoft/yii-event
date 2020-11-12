@@ -6,5 +6,4 @@ namespace Yiisoft\Yii\Event\Tests\Mock;
 
 final class TestClass
 {
-
 }
