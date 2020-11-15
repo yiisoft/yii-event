@@ -7,5 +7,10 @@ use Yiisoft\EventDispatcher\Provider\ListenerCollection;
 use Yiisoft\Yii\Event\ListenerCollectionFactory as Factory;
 
 return [
-    ListenerCollection::class => static fn (Factory $factory) => $factory->create(Builder::require('events')),
+    ListenerCollection::class => static fn (Factory $factory) => $factory->create(require Builder::path('events')),
+    EventDispatcherInterface::class => Yiisoft\EventDispatcher\Dispatcher\Dispatcher::class,
+    ListenerProviderInterface::class => [
+        '__class' => Provider::class,
+        '__construct()' => [Reference::to(ListenerCollection::class)]
+    ]
 ];
