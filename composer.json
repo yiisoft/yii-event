@@ -46,7 +46,9 @@
         },
         "config-plugin": {
             "common": "config/common.php",
-            "events": "config/events.php"
+            "console": "config/console.php",
+            "events": "config/events.php",
+            "web": "config/web.php"
         }
     },
     "config": {
