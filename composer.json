@@ -20,7 +20,6 @@
     "require": {
         "php": "^7.4|^8.0",
         "psr/container": "^1.0",
-        "yiisoft/di": "^3.0@dev",
         "yiisoft/event-dispatcher": "^3.0@dev",
         "yiisoft/friendly-exception": "^1.0",
         "yiisoft/injector": "^1.0"
@@ -28,7 +27,8 @@
     "require-dev": {
         "infection/infection": "^0.18.0",
         "phpunit/phpunit": "^9.4",
-        "vimeo/psalm": "^4.0"
+        "vimeo/psalm": "^4.0",
+        "yiisoft/test-support": "3.0.x-dev"
     },
     "autoload": {
         "psr-4": {
@@ -43,6 +43,10 @@
     "extra": {
         "branch-alias": {
             "dev-master": "3.0.x-dev"
+        },
+        "config-plugin": {
+            "common": "config/common.php",
+            "events": "config/events.php"
         }
     },
     "config": {
