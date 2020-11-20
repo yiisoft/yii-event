@@ -59,7 +59,7 @@ final class ListenerCollectionFactory
                         }
                     } catch (ContainerExceptionInterface $exception) {
                         throw new InvalidListenerConfigurationException(
-                            "Could not instantiate event listener or listener class has invalid configuration.",
+                            'Could not instantiate event listener or listener class has invalid configuration.',
                             0,
                             $exception
                         );

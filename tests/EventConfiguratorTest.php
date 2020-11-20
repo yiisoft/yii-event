@@ -92,7 +92,7 @@ final class EventConfiguratorTest extends TestCase
                 static function (Event $event) {
                     $event->register(new stdClass());
                 },
-                ['eventAlias', 'register']
+                ['eventAlias', 'register'],
             ],
         ];
     }
