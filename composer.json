@@ -48,6 +48,14 @@
             "common": "config/common.php",
             "console": "config/console.php",
             "events": "config/events.php",
+            "events-web": [
+                "$events",
+                "config/events-web.php"
+            ],
+            "events-console": [
+                "$events",
+                "config/events-console.php"
+            ],
             "web": "config/web.php"
         }
     },
