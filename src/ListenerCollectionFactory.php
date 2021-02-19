@@ -64,7 +64,7 @@ final class ListenerCollectionFactory
     /**
      * Converts callable from configuration to a real callable.
      *
-     * @param string|array|callable $callable
+     * @param array|callable|string $callable
      *
      * @return callable
      */
