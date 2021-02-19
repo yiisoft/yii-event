@@ -47,6 +47,7 @@ class ListenerConfigurationCheckerTest extends TestCase
 
     /**
      * @dataProvider badCallableProvider
+     *
      * @param $callable
      * @param string $type
      */
@@ -72,6 +73,7 @@ class ListenerConfigurationCheckerTest extends TestCase
 
     /**
      * @dataProvider goodCallableProvider
+     *
      * @param $callable
      */
     public function testGoodCallable($callable): void
@@ -85,7 +87,7 @@ class ListenerConfigurationCheckerTest extends TestCase
     public function testExceptionOnHandlerInstantiation(): void
     {
         $this->expectException(InvalidListenerConfigurationException::class);
-        $this->expectExceptionMessage("Could not instantiate event listener or listener class has invalid configuration.");
+        $this->expectExceptionMessage('Could not instantiate event listener or listener class has invalid configuration.');
         $this->expectExceptionCode(0);
 
         $callable = [Event::class, 'register'];
