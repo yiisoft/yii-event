@@ -76,6 +76,14 @@ final class EventConfiguratorTest extends TestCase
         $this->getListenerCollection(['test']);
     }
 
+    public function testInvalidEventConfigurationFormatExceptionWhenConfigurationIsNotIterable(): void
+    {
+        $this->expectException(InvalidEventConfigurationFormatException::class);
+        $this->expectExceptionMessage('Event listeners for Yiisoft\Yii\Event\Tests\Mock\Event must be an iterable, string given.');
+
+        $this->getListenerCollection([Event::class => 'test']);
+    }
+
     public function testInvalidEventConfigurationFormatNoExceptionWhenListenerIsBad(): void
     {
         $listenerCollection = $this->getListenerCollection([TestClass::class => [new stdClass()]]);
@@ -87,13 +95,13 @@ final class EventConfiguratorTest extends TestCase
     {
         return [
             Event::class => [
+                ['eventAlias', 'register'],
                 [Event::class, 'register'],
                 [Handler::class, 'handleStatic'],
                 [new Event(), 'register'],
                 static function (Event $event) {
                     $event->register(new stdClass());
                 },
-                ['eventAlias', 'register'],
                 new Event(),
                 Event::class,
             ],
