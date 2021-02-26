@@ -34,11 +34,6 @@ final class ListenerCollectionFactory
         $listenerCollection = new ListenerCollection();
 
         foreach ($eventListeners as $eventName => $listeners) {
-            if (!is_string($eventName) || !class_exists($eventName)) {
-                throw new InvalidEventConfigurationFormatException(
-                    'Incorrect event listener format. Format with event name must be used.'
-                );
-            }
 
             if (!is_iterable($listeners)) {
                 $type = is_object($listeners) ? get_class($listeners) : gettype($listeners);

@@ -35,14 +35,14 @@ final class ListenerConfigurationChecker
     public function check(array $configuration): void
     {
         foreach ($configuration as $eventName => $listeners) {
-            if (!is_string($eventName)) {
+            if (!is_string($eventName) || !class_exists($eventName)) {
                 throw new InvalidEventConfigurationFormatException(
                     'Incorrect event listener format. Format with event name must be used.'
                 );
             }
 
             if (!is_iterable($listeners)) {
-                $type = gettype($listeners);
+                $type = is_object($listeners) ? get_class($listeners) : gettype($listeners);
 
                 throw new InvalidEventConfigurationFormatException(
                     "Event listeners for $eventName must be an iterable, $type given."
@@ -52,7 +52,7 @@ final class ListenerConfigurationChecker
             foreach ($listeners as $listener) {
                 try {
                     if (!$this->isCallable($listener)) {
-                        $type = gettype($listener);
+                        $type = is_object($listener) ? get_class($listener) : gettype($listener);
 
                         throw new InvalidListenerConfigurationException(
                             "Listener must be a callable, $type given."
