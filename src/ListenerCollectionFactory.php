@@ -34,7 +34,6 @@ final class ListenerCollectionFactory
         $listenerCollection = new ListenerCollection();
 
         foreach ($eventListeners as $eventName => $listeners) {
-
             if (!is_iterable($listeners)) {
                 $type = is_object($listeners) ? get_class($listeners) : gettype($listeners);
 
