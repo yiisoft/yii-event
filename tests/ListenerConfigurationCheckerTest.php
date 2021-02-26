@@ -39,7 +39,7 @@ class ListenerConfigurationCheckerTest extends TestCase
             'non-existent container definition' => [['test', 'register'], 'array'],
             'non-existent method' => [[Event::class, 'nonExistentMethod'], 'array'],
             'non-existent method in object' => [[new Event(), 'nonExistentMethod'], 'array'],
-            'non-invokable object' => [new stdClass(), 'object'],
+            'non-invokable object' => [new stdClass(), 'stdClass'],
             'regular array' => [[1, 2], 'array'],
             'class not in container' => [[Handler::class, 'handle'], 'array'],
         ];
@@ -101,7 +101,7 @@ class ListenerConfigurationCheckerTest extends TestCase
     public function testListenersNotIterable(): void
     {
         $this->expectException(InvalidEventConfigurationFormatException::class);
-        $this->expectExceptionMessage(sprintf('Event listeners for %s must be an iterable, object given.', Event::class));
+        $this->expectExceptionMessage(sprintf('Event listeners for %s must be an iterable, stdClass given.', Event::class));
         $this->expectExceptionCode(0);
 
         (new ListenerConfigurationChecker($this->container))->check([Event::class => new StdClass()]);

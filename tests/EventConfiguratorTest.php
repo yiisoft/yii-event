@@ -73,7 +73,7 @@ final class EventConfiguratorTest extends TestCase
         $this->expectException(InvalidEventConfigurationFormatException::class);
         $this->expectExceptionMessage('Incorrect event listener format. Format with event name must be used.');
 
-        $this->getListenerCollection(['test']);
+        $this->getListenerCollection([['test']]);
     }
 
     public function testInvalidEventConfigurationFormatExceptionWhenConfigurationIsNotIterable(): void
