@@ -91,9 +91,10 @@ final class ListenerConfigurationChecker
             }
 
             if ($this->container->has($definition[0])) {
+                /** @var mixed */
                 $object = $this->container->get($definition[0]);
 
-                return method_exists($object, $definition[1]);
+                return is_object($object) && method_exists($object, $definition[1]);
             }
 
             return false;
