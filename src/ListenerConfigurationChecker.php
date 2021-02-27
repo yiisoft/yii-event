@@ -8,6 +8,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionMethod;
+
 use function is_array;
 use function is_callable;
 use function is_string;
@@ -29,8 +30,6 @@ final class ListenerConfigurationChecker
      * - listener is meant to be a method of an object which can't be instantiated
      *
      * @param array $configuration An array in format of [eventClassName => [listeners]]
-     *
-     * @psalm-suppress InvalidCatch
      */
     public function check(array $configuration): void
     {
@@ -69,12 +68,16 @@ final class ListenerConfigurationChecker
         }
     }
 
+    /**
+     * @param mixed $definition
+     */
     private function isCallable($definition): bool
     {
         if (
             is_array($definition)
             && array_keys($definition) === [0, 1]
             && is_string($definition[0])
+            && is_string($definition[1])
         ) {
             if (class_exists($definition[0])) {
                 try {

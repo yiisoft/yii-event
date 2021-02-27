@@ -42,6 +42,8 @@ class ListenerConfigurationCheckerTest extends TestCase
             'non-invokable object' => [new stdClass(), 'stdClass'],
             'regular array' => [[1, 2], 'array'],
             'class not in container' => [[Handler::class, 'handle'], 'array'],
+            'class method null' => [[Event::class, null], 'array'],
+            'class method integer' => [[Event::class, 42], 'array'],
         ];
     }
 
