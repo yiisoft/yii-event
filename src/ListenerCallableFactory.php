@@ -13,9 +13,9 @@ use function is_callable;
 use function is_string;
 
 /**
- * Create real callable listener from configuration.
+ * @internal Create real callable listener from configuration.
  */
-final class ListenerFactory
+final class ListenerCallableFactory
 {
     private ContainerInterface $container;
 
