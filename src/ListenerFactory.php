@@ -63,7 +63,7 @@ final class ListenerFactory
                 /** @var mixed */
                 return [
                     $this->container->get($className),
-                    $methodName
+                    $methodName,
                 ];
             }
 

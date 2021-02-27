@@ -61,7 +61,7 @@ class ListenerConfigurationCheckerTest extends TestCase
             'invokable object to instantiate' => [HandlerInvokable::class],
             'closure' => [
                 static function () {
-                }
+                },
             ],
             'short closure' => [static fn () => null],
         ];

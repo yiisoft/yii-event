@@ -61,7 +61,7 @@ class ListenerFactoryTest extends TestCase
         return [
             'closure' => [
                 static function () {
-                }
+                },
             ],
             'short closure' => [static fn () => null],
         ];
