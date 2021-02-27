@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Yii\Event;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionMethod;
@@ -27,7 +28,8 @@ final class ListenerCallableFactory
     /**
      * @param mixed $definition
      *
-     * @throws InvalidListenerConfigurationException When failed to create listener.
+     * @throws InvalidListenerConfigurationException Failed to create listener.
+     * @throws ContainerExceptionInterface Error while retrieving the entry from container.
      */
     public function create($definition): callable
     {
@@ -45,6 +47,8 @@ final class ListenerCallableFactory
      * @param mixed $definition
      *
      * @return mixed
+     *
+     * @throws ContainerExceptionInterface Error while retrieving the entry from container.
      */
     private function prepare($definition)
     {

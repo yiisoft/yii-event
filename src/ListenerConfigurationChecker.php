@@ -69,6 +69,8 @@ final class ListenerConfigurationChecker
 
     /**
      * @param mixed $definition
+     *
+     * @throws ContainerExceptionInterface Error while retrieving the entry from container.
      */
     private function isCallable($definition): bool
     {
