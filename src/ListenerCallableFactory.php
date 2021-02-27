@@ -46,9 +46,9 @@ final class ListenerCallableFactory
     /**
      * @param mixed $definition
      *
-     * @return mixed
-     *
      * @throws ContainerExceptionInterface Error while retrieving the entry from container.
+     *
+     * @return mixed
      */
     private function prepare($definition)
     {
