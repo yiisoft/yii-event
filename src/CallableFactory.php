@@ -16,7 +16,7 @@ use function is_string;
 /**
  * @internal Create real callable listener from configuration.
  */
-final class ListenerCallableFactory
+final class CallableFactory
 {
     private ContainerInterface $container;
 

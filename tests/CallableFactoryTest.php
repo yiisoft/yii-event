@@ -10,13 +10,13 @@ use Psr\Container\ContainerInterface;
 use stdClass;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Yii\Event\InvalidListenerConfigurationException;
-use Yiisoft\Yii\Event\ListenerCallableFactory;
+use Yiisoft\Yii\Event\CallableFactory;
 use Yiisoft\Yii\Event\Tests\Mock\Event;
 use Yiisoft\Yii\Event\Tests\Mock\Handler;
 use Yiisoft\Yii\Event\Tests\Mock\HandlerInvokable;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
-class ListenerCallableFactoryTest extends TestCase
+class CallableFactoryTest extends TestCase
 {
     public function dataArray(): array
     {
@@ -103,9 +103,9 @@ class ListenerCallableFactoryTest extends TestCase
         $this->createFactory()->create($definition);
     }
 
-    private function createFactory(?ContainerInterface $container = null): ListenerCallableFactory
+    private function createFactory(?ContainerInterface $container = null): CallableFactory
     {
-        return new ListenerCallableFactory(
+        return new CallableFactory(
             $container ?? new SimpleContainer([
                 Event::class => new Event(),
                 TestClass::class => new TestClass(),

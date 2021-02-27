@@ -14,12 +14,12 @@ use function is_string;
 final class ListenerCollectionFactory
 {
     private Injector $injector;
-    private ListenerCallableFactory $listenerCallableFactory;
+    private CallableFactory $callableFactory;
 
-    public function __construct(Injector $injector, ListenerCallableFactory $listenerCallableFactory)
+    public function __construct(Injector $injector, CallableFactory $callableFactory)
     {
         $this->injector = $injector;
-        $this->listenerCallableFactory = $listenerCallableFactory;
+        $this->callableFactory = $callableFactory;
     }
 
     /**
@@ -50,7 +50,7 @@ final class ListenerCollectionFactory
                     /** @return mixed */
                     function (object $event) use ($callable) {
                         return $this->injector->invoke(
-                            $this->listenerCallableFactory->create($callable),
+                            $this->callableFactory->create($callable),
                             [$event]
                         );
                     };

@@ -13,11 +13,11 @@ use function is_string;
 
 final class ListenerConfigurationChecker
 {
-    private ListenerCallableFactory $listenerCallableFactory;
+    private CallableFactory $callableFactory;
 
-    public function __construct(ListenerCallableFactory $listenerCallableFactory)
+    public function __construct(CallableFactory $callableFactory)
     {
-        $this->listenerCallableFactory = $listenerCallableFactory;
+        $this->callableFactory = $callableFactory;
     }
 
     /**
@@ -75,7 +75,7 @@ final class ListenerConfigurationChecker
     private function isCallable($definition): bool
     {
         try {
-            $this->listenerCallableFactory->create($definition);
+            $this->callableFactory->create($definition);
         } catch (InvalidListenerConfigurationException $e) {
             return false;
         }

@@ -11,7 +11,7 @@ use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Yii\Event\InvalidEventConfigurationFormatException;
 use Yiisoft\Yii\Event\InvalidListenerConfigurationException;
 use Yiisoft\Yii\Event\ListenerConfigurationChecker;
-use Yiisoft\Yii\Event\ListenerCallableFactory;
+use Yiisoft\Yii\Event\CallableFactory;
 use Yiisoft\Yii\Event\Tests\Mock\Event;
 use Yiisoft\Yii\Event\Tests\Mock\ExceptionalContainer;
 use Yiisoft\Yii\Event\Tests\Mock\HandlerInvokable;
@@ -111,7 +111,7 @@ class ListenerConfigurationCheckerTest extends TestCase
     private function createChecker(?ContainerInterface $container = null): ListenerConfigurationChecker
     {
         return new ListenerConfigurationChecker(
-            new ListenerCallableFactory(
+            new CallableFactory(
                 $container ?? new SimpleContainer([
                     Event::class => new Event(),
                     TestClass::class => new TestClass(),
