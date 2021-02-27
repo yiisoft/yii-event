@@ -25,11 +25,11 @@
         "yiisoft/injector": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4",
-        "roave/infection-static-analysis-plugin": "^1.5",
+        "phpunit/phpunit": "^9.5",
+        "roave/infection-static-analysis-plugin": "^1.7",
         "spatie/phpunit-watcher": "^1.23",
-        "vimeo/psalm": "^4.2",
-        "yiisoft/test-support": "^1.0"
+        "vimeo/psalm": "^4.6",
+        "yiisoft/test-support": "^1.2"
     },
     "autoload": {
         "psr-4": {
