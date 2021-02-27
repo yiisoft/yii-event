@@ -4,30 +4,26 @@ declare(strict_types=1);
 
 namespace Yiisoft\Yii\Event;
 
-use Psr\Container\ContainerInterface;
-use ReflectionMethod;
 use Yiisoft\EventDispatcher\Provider\ListenerCollection;
 use Yiisoft\Injector\Injector;
+
 use function get_class;
-use function is_array;
 use function is_object;
 use function is_string;
 
 final class ListenerCollectionFactory
 {
     private Injector $injector;
-    private ContainerInterface $container;
+    private ListenerFactory $listenerFactory;
 
-    public function __construct(Injector $injector, ContainerInterface $container)
+    public function __construct(Injector $injector, ListenerFactory $listenerFactory)
     {
         $this->injector = $injector;
-        $this->container = $container;
+        $this->listenerFactory = $listenerFactory;
     }
 
     /**
      * @param array $eventListeners Event listener list in format ['eventName1' => [$listener1, $listener2, ...]]
-     *
-     * @return ListenerCollection
      */
     public function create(array $eventListeners): ListenerCollection
     {
@@ -48,44 +44,20 @@ final class ListenerCollectionFactory
                 );
             }
 
+            /** @var mixed */
             foreach ($listeners as $callable) {
-                $listener = function (object $event) use ($callable) {
-                    $callable = $this->convertCallable($callable);
-
-                    return $this->injector->invoke($callable, [$event]);
-                };
+                $listener =
+                    /** @return mixed */
+                    function (object $event) use ($callable) {
+                        return $this->injector->invoke(
+                            $this->listenerFactory->create($callable),
+                            [$event]
+                        );
+                    };
                 $listenerCollection = $listenerCollection->add($listener, $eventName);
             }
         }
 
         return $listenerCollection;
-    }
-
-    /**
-     * Converts callable from configuration to a real callable.
-     *
-     * @param array|callable|string $callable
-     *
-     * @return callable
-     */
-    private function convertCallable($callable): callable
-    {
-        if (is_string($callable) && $this->container->has($callable)) {
-            $callable = $this->container->get($callable);
-        }
-
-        if (is_array($callable)) {
-            if (is_string($callable[0]) && !class_exists($callable[0]) && $this->container->has($callable[0])) {
-                $callable[0] = $this->container->get($callable[0]);
-            }
-            if (!is_object($callable[0])) {
-                $reflection = new ReflectionMethod($callable[0], $callable[1]);
-                if (!$reflection->isStatic()) {
-                    $callable = [$this->container->get($callable[0]), $callable[1]];
-                }
-            }
-        }
-
-        return $callable;
     }
 }

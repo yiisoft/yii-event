@@ -12,6 +12,7 @@ use Yiisoft\Injector\Injector;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Yii\Event\InvalidEventConfigurationFormatException;
 use Yiisoft\Yii\Event\ListenerCollectionFactory;
+use Yiisoft\Yii\Event\ListenerFactory;
 use Yiisoft\Yii\Event\Tests\Mock\Event;
 use Yiisoft\Yii\Event\Tests\Mock\Handler;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
@@ -121,7 +122,10 @@ final class EventConfiguratorTest extends TestCase
 
     private function getListenerCollection(array $eventConfig): ListenerCollection
     {
-        $factory = new ListenerCollectionFactory(new Injector($this->container), $this->container);
+        $factory = new ListenerCollectionFactory(
+            new Injector($this->container),
+            new ListenerFactory($this->container)
+        );
 
         return $factory->create($eventConfig);
     }

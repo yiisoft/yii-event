@@ -5,21 +5,19 @@ declare(strict_types=1);
 namespace Yiisoft\Yii\Event;
 
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use ReflectionException;
-use ReflectionMethod;
 
-use function is_array;
-use function is_callable;
+use function get_class;
+use function gettype;
+use function is_object;
 use function is_string;
 
 final class ListenerConfigurationChecker
 {
-    private ContainerInterface $container;
+    private ListenerFactory $listenerFactory;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ListenerFactory $listenerFactory)
     {
-        $this->container = $container;
+        $this->listenerFactory = $listenerFactory;
     }
 
     /**
@@ -48,6 +46,7 @@ final class ListenerConfigurationChecker
                 );
             }
 
+            /** @var mixed $listener */
             foreach ($listeners as $listener) {
                 try {
                     if (!$this->isCallable($listener)) {
@@ -73,41 +72,12 @@ final class ListenerConfigurationChecker
      */
     private function isCallable($definition): bool
     {
-        if (
-            is_array($definition)
-            && array_keys($definition) === [0, 1]
-            && is_string($definition[0])
-            && is_string($definition[1])
-        ) {
-            if (class_exists($definition[0])) {
-                try {
-                    $method = new ReflectionMethod($definition[0], $definition[1]);
-                    if ($method->isStatic()) {
-                        return true;
-                    }
-                } catch (ReflectionException $exception) {
-                    return false;
-                }
-            }
-
-            if ($this->container->has($definition[0])) {
-                /** @var mixed */
-                $object = $this->container->get($definition[0]);
-
-                return is_object($object) && method_exists($object, $definition[1]);
-            }
-
+        try {
+            $this->listenerFactory->create($definition);
+        } catch (InvalidListenerConfigurationException $e) {
             return false;
         }
 
-        if (is_callable($definition)) {
-            return true;
-        }
-
-        if (is_string($definition) && $this->container->has($definition)) {
-            return is_callable($this->container->get($definition));
-        }
-
-        return false;
+        return true;
     }
 }
