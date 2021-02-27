@@ -27,7 +27,7 @@ final class ListenerFactory
     /**
      * @param mixed $definition
      *
-     * @throws InvalidListenerConfigurationException When failed to create listener
+     * @throws InvalidListenerConfigurationException When failed to create listener.
      */
     public function create($definition): callable
     {
@@ -57,30 +57,32 @@ final class ListenerFactory
             && is_string($definition[0])
             && is_string($definition[1])
         ) {
-            if (!class_exists($definition[0]) && $this->container->has($definition[0])) {
+            [$className, $methodName] = $definition;
+
+            if (!class_exists($className) && $this->container->has($className)) {
                 /** @var mixed */
                 return [
-                    $this->container->get($definition[0]),
-                    $definition[1]
+                    $this->container->get($className),
+                    $methodName
                 ];
             }
 
-            if (!class_exists($definition[0])) {
+            if (!class_exists($className)) {
                 return null;
             }
 
             try {
-                $reflection = new ReflectionMethod($definition[0], $definition[1]);
+                $reflection = new ReflectionMethod($className, $methodName);
             } catch (ReflectionException $e) {
                 return null;
             }
             if ($reflection->isStatic()) {
-                return [$definition[0], $definition[1]];
+                return [$className, $methodName];
             }
-            if ($this->container->has($definition[0])) {
+            if ($this->container->has($className)) {
                 return [
-                    $this->container->get($definition[0]),
-                    $definition[1],
+                    $this->container->get($className),
+                    $methodName,
                 ];
             }
             return null;
