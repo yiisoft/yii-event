@@ -5,20 +5,19 @@ declare(strict_types=1);
 namespace Yiisoft\Yii\Event;
 
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use ReflectionException;
-use ReflectionMethod;
-use function is_array;
-use function is_callable;
+
+use function get_class;
+use function gettype;
+use function is_object;
 use function is_string;
 
 final class ListenerConfigurationChecker
 {
-    private ContainerInterface $container;
+    private CallableFactory $callableFactory;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(CallableFactory $callableFactory)
     {
-        $this->container = $container;
+        $this->callableFactory = $callableFactory;
     }
 
     /**
@@ -29,8 +28,6 @@ final class ListenerConfigurationChecker
      * - listener is meant to be a method of an object which can't be instantiated
      *
      * @param array $configuration An array in format of [eventClassName => [listeners]]
-     *
-     * @psalm-suppress InvalidCatch
      */
     public function check(array $configuration): void
     {
@@ -49,6 +46,7 @@ final class ListenerConfigurationChecker
                 );
             }
 
+            /** @var mixed */
             foreach ($listeners as $listener) {
                 try {
                     if (!$this->isCallable($listener)) {
@@ -69,41 +67,19 @@ final class ListenerConfigurationChecker
         }
     }
 
+    /**
+     * @param mixed $definition
+     *
+     * @throws ContainerExceptionInterface Error while retrieving the entry from container.
+     */
     private function isCallable($definition): bool
     {
-        if (
-            is_array($definition)
-            && array_keys($definition) === [0, 1]
-            && is_string($definition[0])
-        ) {
-            if (class_exists($definition[0])) {
-                try {
-                    $method = new ReflectionMethod($definition[0], $definition[1]);
-                    if ($method->isStatic()) {
-                        return true;
-                    }
-                } catch (ReflectionException $exception) {
-                    return false;
-                }
-            }
-
-            if ($this->container->has($definition[0])) {
-                $object = $this->container->get($definition[0]);
-
-                return method_exists($object, $definition[1]);
-            }
-
+        try {
+            $this->callableFactory->create($definition);
+        } catch (InvalidListenerConfigurationException $e) {
             return false;
         }
 
-        if (is_callable($definition)) {
-            return true;
-        }
-
-        if (is_string($definition) && $this->container->has($definition)) {
-            return is_callable($this->container->get($definition));
-        }
-
-        return false;
+        return true;
     }
 }
