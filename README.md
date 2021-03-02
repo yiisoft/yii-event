@@ -7,7 +7,7 @@
 </p>
 
 This package is a configuration wrapper for the [yiisoft/event-dispatcher](https://github.com/yiisoft/event-dispatcher) package.
-It is intended to make event listener declaration simpler than you could ever imagine.  
+It is intended to make event listener declaration simpler than you could ever imagine.
 All you need is to use any [PSR-11](https://www.php-fig.org/psr/psr-11/) compatible DI container.
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii-event/v/stable.png)](https://packagist.org/packages/yiisoft/yii-event)
@@ -20,13 +20,18 @@ All you need is to use any [PSR-11](https://www.php-fig.org/psr/psr-11/) compati
 [![type-coverage](https://shepherd.dev/github/yiisoft/yii-event/coverage.svg)](https://shepherd.dev/github/yiisoft/yii-event)
 
 ### DI configuration
+
 You can see a config example in the [config directory](config):
-- [common.php](config/common.php) contains the configuration for the PSR-14 interfaces
+
+- [common.php](config/common.php) contains the configuration for the [PSR-14](https://www.php-fig.org/psr/psr-14/) interfaces.
 - [console.php](config/console.php) and [web.php](config/web.php) contains the configuration for the `ListenerCollectionFactory`.
 
 All these configs will be used automatically in projects with the [yiisoft/config](https://github.com/yiisoft/config).
 
 ### Event configuration example
+
+The configuration is an array where keys are event names and values are array of handlers:
+
 ```php
 return [
     EventName::class => [
@@ -56,12 +61,21 @@ return [
 ];
 ```
 
-All the dependency resolving is done in a lazy way: dependencies will not be resolved before the corresponding event will happen.
+The dependency resolving is done in a lazy way: dependencies will not be resolved before the corresponding event
+will happen.
 
 ### Configuration checker
 
-There is the `ListenerConfigurationChecker` class implemented. It is designed to help you with your event listener configuration validation. What this checker actually do is converting your listener config to actual callables which will be called by the `Dispatcher` when a corresponding event will happen. It is intended to be used in dev environment or in tests since it is a resource greedy operation in big projects. An `InvalidEventConfigurationFormatException` will be thrown if your configuration contains an invalid listener.  
-Usage example: `$checker->check($configuration->get('events-web'));`.
+To help you with event listener configuration validation there is the `ListenerConfigurationChecker`. It is converting
+your whole listener config to actual callables at once to validate it. It is intended to be used in development environment
+or in tests since it is a resource greedy operation in large projects. An `InvalidEventConfigurationFormatException`
+will be thrown if your configuration contains an invalid listener.
+
+Usage example:
+
+```php
+$checker->check($configuration->get('events-web'));
+```
 
 ### Unit testing
 
