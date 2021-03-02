@@ -58,7 +58,10 @@ return [
 
 All the dependency resolving is done in a lazy way: dependencies will not be resolved before the corresponding event will happen.
 
+### Configuration checker
 
+There is the `ListenerConfigurationChecker` class implemented. It is designed to help you with your event listener configuration validation. What this checker actually do is converting your listener config to actual callables which will be called by the `Dispatcher` when a corresponding event will happen. It is intended to be used in dev environment or in tests since it is a resource greedy operation in big projects. An `InvalidEventConfigurationFormatException` will be thrown if your configuration contains an invalid listener.  
+Usage example: `$checker->check($configuration->get('events-web'));`.
 
 ### Unit testing
 
