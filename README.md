@@ -33,7 +33,7 @@ return [
         // Just a regular closure, it will be called from the Dispatcher "as is".
         static fn (EventName $event) => someStuff($event),
         
-        // A regular callable with additional dependency. All the parameters after the first one (the event itself)
+        // A regular closure with additional dependency. All the parameters after the first one (the event itself)
         // will be resolved from your DI container within `yiisoft/injector`.
         static fn (EventName $event, DependencyClass $dependency) => someStuff($event),
         
