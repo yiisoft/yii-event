@@ -6,7 +6,9 @@
     <br>
 </p>
 
-The package ...
+This package is a configuration wrapper for the [yiisoft/event-dispatcher](https://github.com/yiisoft/event-dispatcher) package.
+It is intended to make event listener declaration simpler than you could ever imagine.
+All you need is to use any [PSR-11](https://www.php-fig.org/psr/psr-11/) compatible DI container.
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii-event/v/stable.png)](https://packagist.org/packages/yiisoft/yii-event)
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii-event/downloads.png)](https://packagist.org/packages/yiisoft/yii-event)
@@ -17,7 +19,63 @@ The package ...
 [![static analysis](https://github.com/yiisoft/yii-event/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/yii-event/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yiisoft/yii-event/coverage.svg)](https://shepherd.dev/github/yiisoft/yii-event)
 
-## General usage
+### DI configuration
+
+You can see a config example in the [config directory](config):
+
+- [common.php](config/common.php) contains the configuration for the [PSR-14](https://www.php-fig.org/psr/psr-14/) interfaces.
+- [console.php](config/console.php) and [web.php](config/web.php) contains the configuration for the `ListenerCollectionFactory`.
+
+All these configs will be used automatically in projects with the [yiisoft/config](https://github.com/yiisoft/config).
+
+### Event configuration example
+
+The configuration is an array where keys are event names and values are array of handlers:
+
+```php
+return [
+    EventName::class => [
+        // Just a regular closure, it will be called from the Dispatcher "as is".
+        static fn (EventName $event) => someStuff($event),
+        
+        // A regular closure with additional dependency. All the parameters after the first one (the event itself)
+        // will be resolved from your DI container within `yiisoft/injector`.
+        static fn (EventName $event, DependencyClass $dependency) => someStuff($event),
+        
+        // An example with a regular callable. If the `staticMethodName` method contains some dependencies,
+        // they will be resolved the same way as in the previous example.
+        [SomeClass::class, 'staticMethodName'],
+        
+        // Non-static methods are allowed too. In this case `SomeClass` will be instantiated by your DI container.
+        [SomeClass::class, 'methodName'],
+        
+        // An object of a class with the `__invoke` method implemented
+        new InvokableClass(),
+        
+        // In this case the `InvokableClass` with the `__invoke` method will be instantiated by your DI container
+        InvokableClass::class,
+        
+        // Any definition of an invokable class may be here while your `$container->has('the definition)` 
+        'di-alias'
+    ],
+];
+```
+
+The dependency resolving is done in a lazy way: dependencies will not be resolved before the corresponding event
+will happen.
+
+### Configuration checker
+
+To help you with event listener configuration validation there is the `ListenerConfigurationChecker`. It is converting
+your whole listener config to actual callables at once to validate it. It is intended to be used in development environment
+or in tests since it is a resource greedy operation in large projects. An `InvalidEventConfigurationFormatException`
+will be thrown if your configuration contains an invalid listener.
+
+Usage example:
+
+```php
+$checker->check($configuration->get('events-web'));
+```
 
 ### Unit testing
 
@@ -59,3 +117,5 @@ The code is statically analyzed with [Psalm](https://psalm.dev/). To run static 
 
 The Yii Event is free software. It is released under the terms of the BSD License.
 Please see [`LICENSE`](./LICENSE.md) for more information.
+
+Maintained by [Yii Software](https://www.yiiframework.com/).
