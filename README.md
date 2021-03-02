@@ -42,7 +42,16 @@ return [
         [SomeClass::class, 'staticMethodName'],
         
         // Non-static methods are allowed too. In this case `SomeClass` will be instantiated by your DI container.
-        [SomeClass::class, 'methodName']
+        [SomeClass::class, 'methodName'],
+        
+        // An object of a class with the `__invoke` method implemented
+        new InvokableClass(),
+        
+        // In this case the `InvokableClass` with the `__invoke` method will be instantiated by your DI container
+        InvokableClass::class,
+        
+        // Any definition of an invokable class may be here while your `$container->has('the definition)` 
+        'di-alias'
     ],
 ];
 ```
