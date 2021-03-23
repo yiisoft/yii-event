@@ -45,19 +45,22 @@
         "branch-alias": {
             "dev-master": "3.0.x-dev"
         },
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
         "config-plugin": {
-            "common": "config/common.php",
-            "console": "config/console.php",
-            "events": "config/events.php",
+            "common": "common.php",
+            "console": "console.php",
+            "events": "events.php",
             "events-web": [
                 "$events",
-                "config/events-web.php"
+                "events-web.php"
             ],
             "events-console": [
                 "$events",
-                "config/events-console.php"
+                "events-console.php"
             ],
-            "web": "config/web.php"
+            "web": "web.php"
         }
     },
     "config": {
