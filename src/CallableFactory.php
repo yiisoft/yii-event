@@ -27,6 +27,7 @@ final class CallableFactory
 
     /**
      * Create real callable listener from definition.
+     *
      * @param mixed $definition Defintion to create listener from.
      *
      * @throws InvalidListenerConfigurationException Failed to create listener.
