@@ -11,6 +11,13 @@ use function gettype;
 use function is_object;
 use function is_string;
 
+/**
+ * ListenerConfigurationChecker could be used in development mode to check if listeners are defined correctly.
+ *
+ * ```php
+ * $checker->check($configuration->get('events-web'));
+ * ```
+ */
 final class ListenerConfigurationChecker
 {
     private CallableFactory $callableFactory;
