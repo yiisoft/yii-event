@@ -38,14 +38,11 @@ class ListenerConfigurationCheckerTest extends TestCase
 
     /**
      * @dataProvider badCallableProvider
-     *
-     * @param $callable
-     * @param string $type
      */
     public function testBadCallable($callable, string $type): void
     {
         $this->expectException(InvalidListenerConfigurationException::class);
-        $this->expectExceptionMessage("Listener must be a callable, $type given.");
+        $this->expectExceptionMessage('Listener must be a callable. Got ' . $type);
         $this->expectExceptionCode(0);
 
         $this->createChecker()->check([Event::class => [$callable]]);
@@ -83,7 +80,7 @@ class ListenerConfigurationCheckerTest extends TestCase
     public function testExceptionOnHandlerInstantiation(): void
     {
         $this->expectException(InvalidListenerConfigurationException::class);
-        $this->expectExceptionMessage('Could not instantiate event listener or listener class has invalid configuration.');
+        $this->expectExceptionMessage('Could not instantiate event listener or listener class has invalid configuration. Got array');
         $this->expectExceptionCode(0);
 
         $callable = [Event::class, 'register'];
@@ -102,7 +99,7 @@ class ListenerConfigurationCheckerTest extends TestCase
     public function testListenersIncorrectFormat(): void
     {
         $this->expectException(InvalidEventConfigurationFormatException::class);
-        $this->expectExceptionMessage('Incorrect event listener format. Format with event name must be used.');
+        $this->expectExceptionMessage('Incorrect event listener format. Format with event name must be used. Got 1.');
         $this->expectExceptionCode(0);
 
         $this->createChecker()->check([1 => [Event::class, 'register']]);

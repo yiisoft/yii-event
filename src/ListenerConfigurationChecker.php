@@ -41,7 +41,8 @@ final class ListenerConfigurationChecker
         foreach ($configuration as $eventName => $listeners) {
             if (!is_string($eventName) || !class_exists($eventName)) {
                 throw new InvalidEventConfigurationFormatException(
-                    'Incorrect event listener format. Format with event name must be used.'
+                    'Incorrect event listener format. Format with event name must be used. Got ' .
+                    var_export($eventName, true) . '.'
                 );
             }
 
@@ -57,15 +58,14 @@ final class ListenerConfigurationChecker
             foreach ($listeners as $listener) {
                 try {
                     if (!$this->isCallable($listener)) {
-                        $type = is_object($listener) ? get_class($listener) : gettype($listener);
-
                         throw new InvalidListenerConfigurationException(
-                            "Listener must be a callable, $type given."
+                            'Listener must be a callable. Got ' . $this->listenerDump($listener) . '.'
                         );
                     }
                 } catch (ContainerExceptionInterface $exception) {
                     throw new InvalidListenerConfigurationException(
-                        'Could not instantiate event listener or listener class has invalid configuration.',
+                        'Could not instantiate event listener or listener class has invalid configuration. Got ' .
+                        $this->listenerDump($listener) . '.',
                         0,
                         $exception
                     );
@@ -88,5 +88,13 @@ final class ListenerConfigurationChecker
         }
 
         return true;
+    }
+
+    /**
+     * @param mixed $listener
+     */
+    private function listenerDump($listener): string
+    {
+        return is_object($listener) ? get_class($listener) : var_export($listener, true);
     }
 }

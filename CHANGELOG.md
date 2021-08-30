@@ -1,9 +1,8 @@
 # Yii Event Change Log
 
-
 ## 1.0.1 under development
 
-- no changes in this release.
+- Enh #31: Improve exception messages in `ListenerConfigurationChecker` (vjik)
 
 ## 1.0.0 May 13, 2021
 
