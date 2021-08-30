@@ -60,7 +60,7 @@ class ListenerConfigurationCheckerTest extends TestCase
                 static function () {
                 },
             ],
-            'short closure' => [static fn() => null],
+            'short closure' => [static fn () => null],
         ];
     }
 
