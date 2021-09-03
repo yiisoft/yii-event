@@ -16,7 +16,6 @@ use Yiisoft\Yii\Event\Tests\Mock\Event;
 use Yiisoft\Yii\Event\Tests\Mock\ExceptionalContainer;
 use Yiisoft\Yii\Event\Tests\Mock\HandlerInvokable;
 use Yiisoft\Yii\Event\Tests\Mock\Handler;
-use Yiisoft\Yii\Event\Tests\Mock\NotInstantiableHandler;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
 class ListenerConfigurationCheckerTest extends TestCase
@@ -38,7 +37,7 @@ class ListenerConfigurationCheckerTest extends TestCase
             ],
             'non-invokable object' => [
                 new stdClass(),
-                'Listener must be a callable. Got stdClass'
+                'Listener must be a callable. Got stdClass',
             ],
             'regular array' => [
                 [1, 2],
