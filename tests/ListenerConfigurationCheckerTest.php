@@ -16,6 +16,7 @@ use Yiisoft\Yii\Event\Tests\Mock\Event;
 use Yiisoft\Yii\Event\Tests\Mock\ExceptionalContainer;
 use Yiisoft\Yii\Event\Tests\Mock\HandlerInvokable;
 use Yiisoft\Yii\Event\Tests\Mock\Handler;
+use Yiisoft\Yii\Event\Tests\Mock\NotInstantiableHandler;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
 class ListenerConfigurationCheckerTest extends TestCase
@@ -23,26 +24,56 @@ class ListenerConfigurationCheckerTest extends TestCase
     public function badCallableProvider(): array
     {
         return [
-            'non-existent container definition' => [['test', 'register'], 'array'],
-            'non-existent method' => [[Event::class, 'nonExistentMethod'], 'array'],
-            'non-existent method in object' => [[new Event(), 'nonExistentMethod'], 'array'],
-            'non-invokable object' => [new stdClass(), 'stdClass'],
-            'regular array' => [[1, 2], 'array'],
-            'class not in container' => [[Handler::class, 'handle'], 'array'],
-            'class method null' => [[Event::class, null], 'array'],
-            'class method integer' => [[Event::class, 42], 'array'],
-            'int' => [['int', 'handle'], 'array'],
-            'string' => [['string', 'handle'], 'array'],
+            'non-existent container definition' => [
+                ['test', 'register'],
+                'Listener must be a callable. Got array',
+            ],
+            'non-existent method' => [
+                [Event::class, 'nonExistentMethod'],
+                Event::class . ' could not instantiate or method "nonExistentMethod" not exists in him.',
+            ],
+            'non-existent method in object' => [
+                [new Event(), 'nonExistentMethod'],
+                'Method "nonExistentMethod" not exists in class ' . Event::class . '.',
+            ],
+            'non-invokable object' => [
+                new stdClass(),
+                'Listener must be a callable. Got stdClass'
+            ],
+            'regular array' => [
+                [1, 2],
+                'Listener must be a callable. Got array',
+            ],
+            'class not in container' => [
+                [Handler::class, 'handle'],
+                Handler::class . ' could not instantiate or method "handle" not exists in him.',
+            ],
+            'class method null' => [
+                [Event::class, null],
+                'Listener must be a callable. Got array',
+            ],
+            'class method integer' => [
+                [Event::class, 42],
+                'Listener must be a callable. Got array',
+            ],
+            'int' => [
+                ['int', 'handle'],
+                'Listener must be a callable. Got array',
+            ],
+            'string' => [
+                ['string', 'handle'],
+                'Listener must be a callable. Got array',
+            ],
         ];
     }
 
     /**
      * @dataProvider badCallableProvider
      */
-    public function testBadCallable($callable, string $type): void
+    public function testBadCallable($callable, string $message): void
     {
         $this->expectException(InvalidListenerConfigurationException::class);
-        $this->expectExceptionMessage('Listener must be a callable. Got ' . $type);
+        $this->expectExceptionMessage($message);
         $this->expectExceptionCode(0);
 
         $this->createChecker()->check([Event::class => [$callable]]);
