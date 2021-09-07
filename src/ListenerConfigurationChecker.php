@@ -8,6 +8,7 @@ use Psr\Container\ContainerExceptionInterface;
 
 use function get_class;
 use function gettype;
+use function is_array;
 use function is_object;
 use function is_string;
 
@@ -59,7 +60,7 @@ final class ListenerConfigurationChecker
                 try {
                     if (!$this->isCallable($listener)) {
                         throw new InvalidListenerConfigurationException(
-                            'Listener must be a callable. Got ' . $this->listenerDump($listener) . '.'
+                            $this->createNotCallableMessage($listener)
                         );
                     }
                 } catch (ContainerExceptionInterface $exception) {
@@ -72,6 +73,33 @@ final class ListenerConfigurationChecker
                 }
             }
         }
+    }
+
+    /**
+     * @param mixed $definition
+     */
+    private function createNotCallableMessage($definition): string
+    {
+        if (is_array($definition)
+            && array_keys($definition) === [0, 1]
+            && is_string($definition[1])
+        ) {
+            if (is_string($definition[0]) && class_exists($definition[0])) {
+                return sprintf(
+                    'Could not instantiate "%s" or "%s" method is not defined in this class.',
+                    $definition[0],
+                    $definition[1],
+                );
+            }
+            if (is_object($definition[0])) {
+                return sprintf(
+                    '"%s" method is not defined in "%s" class.',
+                    $definition[1],
+                    get_class($definition[0]),
+                );
+            }
+        }
+        return 'Listener must be a callable. Got ' . $this->listenerDump($definition) . '.';
     }
 
     /**
