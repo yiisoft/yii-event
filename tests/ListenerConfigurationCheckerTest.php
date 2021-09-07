@@ -33,7 +33,7 @@ class ListenerConfigurationCheckerTest extends TestCase
             ],
             'non-existent method in object' => [
                 [new Event(), 'nonExistentMethod'],
-                'Method "nonExistentMethod" not exists in class ' . Event::class . '.',
+                '"nonExistentMethod" method is not defined in "' . Event::class . '" class.',
             ],
             'non-invokable object' => [
                 new stdClass(),

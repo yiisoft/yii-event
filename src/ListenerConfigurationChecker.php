@@ -92,7 +92,11 @@ final class ListenerConfigurationChecker
                 );
             }
             if (is_object($definition[0])) {
-                return 'Method "' . $definition[1] . '" not exists in class ' . get_class($definition[0]) . '.';
+                return sprintf(
+                    '"%s" method is not defined in "%s" class.',
+                    $definition[1],
+                    get_class($definition[0]),
+                );
             }
         }
         return 'Listener must be a callable. Got ' . $this->listenerDump($definition) . '.';
