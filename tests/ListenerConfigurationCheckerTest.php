@@ -29,7 +29,7 @@ class ListenerConfigurationCheckerTest extends TestCase
             ],
             'non-existent method' => [
                 [Event::class, 'nonExistentMethod'],
-                Event::class . ' could not instantiate or method "nonExistentMethod" not exists in him.',
+                'Could not instantiate "' . Event::class . '" or "nonExistentMethod" method is not defined in this class.',
             ],
             'non-existent method in object' => [
                 [new Event(), 'nonExistentMethod'],
@@ -45,7 +45,7 @@ class ListenerConfigurationCheckerTest extends TestCase
             ],
             'class not in container' => [
                 [Handler::class, 'handle'],
-                Handler::class . ' could not instantiate or method "handle" not exists in him.',
+                'Could not instantiate "' . Handler::class . '" or "handle" method is not defined in this class.',
             ],
             'class method null' => [
                 [Event::class, null],

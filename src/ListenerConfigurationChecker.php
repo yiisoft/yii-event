@@ -85,8 +85,11 @@ final class ListenerConfigurationChecker
             && is_string($definition[1])
         ) {
             if (is_string($definition[0]) && class_exists($definition[0])) {
-                return $definition[0] . ' could not instantiate or method "' .
-                    $definition[1] . '" not exists in him.';
+                return sprintf(
+                    'Could not instantiate "%s" or "%s" method is not defined in this class.',
+                    $definition[0],
+                    $definition[1],
+                );
             }
             if (is_object($definition[0])) {
                 return 'Method "' . $definition[1] . '" not exists in class ' . get_class($definition[0]) . '.';
