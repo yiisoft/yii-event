@@ -2,7 +2,7 @@
 
 ## 1.0.2 under development
 
-- Enh #32: More detailed exception messages in `ListenerConfigurationChecker` (vjik)
+- Enh #32: Use more detailed exception messages in `ListenerConfigurationChecker` (vjik)
 
 ## 1.0.1 August 30, 2021
 
