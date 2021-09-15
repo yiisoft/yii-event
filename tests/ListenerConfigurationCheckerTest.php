@@ -63,6 +63,10 @@ class ListenerConfigurationCheckerTest extends TestCase
                 ['string', 'handle'],
                 'Listener must be a callable. Got array',
             ],
+            'string class' => [
+                TestClass::class,
+                'Could not instantiate "' . TestClass::class . '" or "__invoke" is not defined in this class.',
+            ],
         ];
     }
 

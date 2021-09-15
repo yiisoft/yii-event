@@ -80,6 +80,13 @@ final class ListenerConfigurationChecker
      */
     private function createNotCallableMessage($definition): string
     {
+        if (is_string($definition) && class_exists($definition)) {
+            return sprintf(
+                'Could not instantiate "%s" or "__invoke" is not defined in this class.',
+                $definition
+            );
+        }
+
         if (is_array($definition)
             && array_keys($definition) === [0, 1]
             && is_string($definition[1])
