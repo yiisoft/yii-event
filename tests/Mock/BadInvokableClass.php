@@ -8,7 +8,6 @@ final class BadInvokableClass
 {
     public function __construct(NotExistClass $notExistClass)
     {
-
     }
 
     public function __invoke()
