@@ -81,8 +81,15 @@ final class ListenerConfigurationChecker
     private function createNotCallableMessage($definition): string
     {
         if (is_string($definition) && class_exists($definition)) {
+            if (!method_exists($definition, '__invoke')) {
+                return sprintf(
+                    '"__invoke" method is not defined in "%s" class.',
+                    $definition
+                );
+            }
+
             return sprintf(
-                'Could not instantiate "%s" or "__invoke" is not defined in this class.',
+                'Failed to instantiate "%s" class.',
                 $definition
             );
         }
@@ -106,6 +113,7 @@ final class ListenerConfigurationChecker
                 );
             }
         }
+
         return 'Listener must be a callable. Got ' . $this->listenerDump($definition) . '.';
     }
 

@@ -12,6 +12,7 @@ use Yiisoft\Yii\Event\InvalidEventConfigurationFormatException;
 use Yiisoft\Yii\Event\InvalidListenerConfigurationException;
 use Yiisoft\Yii\Event\ListenerConfigurationChecker;
 use Yiisoft\Yii\Event\CallableFactory;
+use Yiisoft\Yii\Event\Tests\Mock\BadInvokableClass;
 use Yiisoft\Yii\Event\Tests\Mock\Event;
 use Yiisoft\Yii\Event\Tests\Mock\ExceptionalContainer;
 use Yiisoft\Yii\Event\Tests\Mock\HandlerInvokable;
@@ -63,9 +64,13 @@ class ListenerConfigurationCheckerTest extends TestCase
                 ['string', 'handle'],
                 'Listener must be a callable. Got array',
             ],
-            'string class' => [
+            'string class without invoke' => [
                 TestClass::class,
-                'Could not instantiate "' . TestClass::class . '" or "__invoke" is not defined in this class.',
+                '"__invoke" method is not defined in "' . TestClass::class . '" class.',
+            ],
+            'string class' => [
+                BadInvokableClass::class,
+                'Failed to instantiate "' . BadInvokableClass::class . '" class.',
             ],
         ];
     }
