@@ -1,6 +1,6 @@
 # Yii Event Change Log
 
-## 1.0.2 under development
+## 1.0.2 September 18, 2021
 
 - Enh #32: Use more detailed exception messages in `ListenerConfigurationChecker` (vjik, thenotsoft)
 
