@@ -33,7 +33,9 @@ class CallableFactoryTest extends TestCase
     public function testArray($definition): void
     {
         self::assertIsArray(
-            $this->createFactory()->create($definition),
+            $this
+                ->createFactory()
+                ->create($definition),
         );
     }
 
@@ -52,7 +54,9 @@ class CallableFactoryTest extends TestCase
     {
         self::assertInstanceOf(
             HandlerInvokable::class,
-            $this->createFactory()->create($definition),
+            $this
+                ->createFactory()
+                ->create($definition),
         );
     }
 
@@ -74,7 +78,9 @@ class CallableFactoryTest extends TestCase
     {
         self::assertInstanceOf(
             Closure::class,
-            $this->createFactory()->create($definition),
+            $this
+                ->createFactory()
+                ->create($definition),
         );
     }
 
@@ -100,7 +106,9 @@ class CallableFactoryTest extends TestCase
     public function testException($definition): void
     {
         $this->expectException(InvalidListenerConfigurationException::class);
-        $this->createFactory()->create($definition);
+        $this
+            ->createFactory()
+            ->create($definition);
     }
 
     private function createFactory(?ContainerInterface $container = null): CallableFactory

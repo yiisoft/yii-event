@@ -84,7 +84,9 @@ class ListenerConfigurationCheckerTest extends TestCase
         $this->expectExceptionMessage($message);
         $this->expectExceptionCode(0);
 
-        $this->createChecker()->check([Event::class => [$callable]]);
+        $this
+            ->createChecker()
+            ->check([Event::class => [$callable]]);
     }
 
     public function goodCallableProvider(): array
@@ -123,7 +125,9 @@ class ListenerConfigurationCheckerTest extends TestCase
         $this->expectExceptionCode(0);
 
         $callable = [Event::class, 'register'];
-        $this->createChecker(new ExceptionalContainer())->check([Event::class => [$callable]]);
+        $this
+            ->createChecker(new ExceptionalContainer())
+            ->check([Event::class => [$callable]]);
     }
 
     public function testListenersNotIterable(): void
@@ -132,7 +136,9 @@ class ListenerConfigurationCheckerTest extends TestCase
         $this->expectExceptionMessage(sprintf('Event listeners for %s must be an iterable, stdClass given.', Event::class));
         $this->expectExceptionCode(0);
 
-        $this->createChecker()->check([Event::class => new StdClass()]);
+        $this
+            ->createChecker()
+            ->check([Event::class => new StdClass()]);
     }
 
     public function testListenersIncorrectFormat(): void
@@ -141,7 +147,9 @@ class ListenerConfigurationCheckerTest extends TestCase
         $this->expectExceptionMessage('Incorrect event listener format. Format with event name must be used. Got 1.');
         $this->expectExceptionCode(0);
 
-        $this->createChecker()->check([1 => [Event::class, 'register']]);
+        $this
+            ->createChecker()
+            ->check([1 => [Event::class, 'register']]);
     }
 
     private function createChecker(?ContainerInterface $container = null): ListenerConfigurationChecker

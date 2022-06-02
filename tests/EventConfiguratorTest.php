@@ -55,7 +55,9 @@ final class EventConfiguratorTest extends TestCase
             $listener($event);
         }
 
-        $this->assertCount(3, $this->container->get(Event::class)->registered());
+        $this->assertCount(3, $this->container
+            ->get(Event::class)
+            ->registered());
     }
 
     public function testAddEventListenerInjection(): void
