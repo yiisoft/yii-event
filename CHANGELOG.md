@@ -1,5 +1,9 @@
 # Yii Event Change Log
 
+## 1.0.4 under development
+
+- no changes in this release.
+
 ## 1.0.3 June 27, 2022
 
 - Enh #38: Add support for `psr/container` version `^2.0` (@vjik)
