@@ -7,19 +7,12 @@ namespace Yiisoft\Yii\Event;
 use Yiisoft\EventDispatcher\Provider\ListenerCollection;
 use Yiisoft\Injector\Injector;
 
-use function get_class;
-use function is_object;
 use function is_string;
 
 final class ListenerCollectionFactory
 {
-    private Injector $injector;
-    private CallableFactory $callableFactory;
-
-    public function __construct(Injector $injector, CallableFactory $callableFactory)
+    public function __construct(private Injector $injector, private CallableFactory $callableFactory)
     {
-        $this->injector = $injector;
-        $this->callableFactory = $callableFactory;
     }
 
     /**
@@ -37,7 +30,7 @@ final class ListenerCollectionFactory
             }
 
             if (!is_iterable($listeners)) {
-                $type = is_object($listeners) ? get_class($listeners) : gettype($listeners);
+                $type = get_debug_type($listeners);
 
                 throw new InvalidEventConfigurationFormatException(
                     "Event listeners for $eventName must be an iterable, $type given."
@@ -48,12 +41,10 @@ final class ListenerCollectionFactory
             foreach ($listeners as $callable) {
                 $listener =
                     /** @return mixed */
-                    function (object $event) use ($callable) {
-                        return $this->injector->invoke(
-                            $this->callableFactory->create($callable),
-                            [$event]
-                        );
-                    };
+                    fn (object $event) => $this->injector->invoke(
+                        $this->callableFactory->create($callable),
+                        [$event]
+                    );
                 $listenerCollection = $listenerCollection->add($listener, $eventName);
             }
         }

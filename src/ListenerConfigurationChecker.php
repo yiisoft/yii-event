@@ -6,8 +6,6 @@ namespace Yiisoft\Yii\Event;
 
 use Psr\Container\ContainerExceptionInterface;
 
-use function get_class;
-use function gettype;
 use function is_array;
 use function is_object;
 use function is_string;
@@ -21,11 +19,8 @@ use function is_string;
  */
 final class ListenerConfigurationChecker
 {
-    private CallableFactory $callableFactory;
-
-    public function __construct(CallableFactory $callableFactory)
+    public function __construct(private CallableFactory $callableFactory)
     {
-        $this->callableFactory = $callableFactory;
     }
 
     /**
@@ -48,7 +43,7 @@ final class ListenerConfigurationChecker
             }
 
             if (!is_iterable($listeners)) {
-                $type = is_object($listeners) ? get_class($listeners) : gettype($listeners);
+                $type = get_debug_type($listeners);
 
                 throw new InvalidEventConfigurationFormatException(
                     "Event listeners for $eventName must be an iterable, $type given."
@@ -75,10 +70,7 @@ final class ListenerConfigurationChecker
         }
     }
 
-    /**
-     * @param mixed $definition
-     */
-    private function createNotCallableMessage($definition): string
+    private function createNotCallableMessage(mixed $definition): string
     {
         if (is_string($definition) && class_exists($definition)) {
             if (!method_exists($definition, '__invoke')) {
@@ -109,7 +101,7 @@ final class ListenerConfigurationChecker
                 return sprintf(
                     '"%s" method is not defined in "%s" class.',
                     $definition[1],
-                    get_class($definition[0]),
+                    $definition[0]::class,
                 );
             }
         }
@@ -118,26 +110,21 @@ final class ListenerConfigurationChecker
     }
 
     /**
-     * @param mixed $definition
-     *
      * @throws ContainerExceptionInterface Error while retrieving the entry from container.
      */
-    private function isCallable($definition): bool
+    private function isCallable(mixed $definition): bool
     {
         try {
             $this->callableFactory->create($definition);
-        } catch (InvalidListenerConfigurationException $e) {
+        } catch (InvalidListenerConfigurationException) {
             return false;
         }
 
         return true;
     }
 
-    /**
-     * @param mixed $listener
-     */
-    private function listenerDump($listener): string
+    private function listenerDump(mixed $listener): string
     {
-        return is_object($listener) ? get_class($listener) : var_export($listener, true);
+        return is_object($listener) ? $listener::class : var_export($listener, true);
     }
 }
