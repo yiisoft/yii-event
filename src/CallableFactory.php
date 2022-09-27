@@ -43,8 +43,8 @@ final class CallableFactory
     }
 
     /**
-     *
      * @throws ContainerExceptionInterface Error while retrieving the entry from container.
+     *
      * @return mixed
      */
     private function prepare(mixed $definition)

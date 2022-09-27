@@ -7,8 +7,6 @@ namespace Yiisoft\Yii\Event;
 use Yiisoft\EventDispatcher\Provider\ListenerCollection;
 use Yiisoft\Injector\Injector;
 
-use function get_class;
-use function is_object;
 use function is_string;
 
 final class ListenerCollectionFactory
@@ -43,7 +41,7 @@ final class ListenerCollectionFactory
             foreach ($listeners as $callable) {
                 $listener =
                     /** @return mixed */
-                    fn(object $event) => $this->injector->invoke(
+                    fn (object $event) => $this->injector->invoke(
                         $this->callableFactory->create($callable),
                         [$event]
                     );
