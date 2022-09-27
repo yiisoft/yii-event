@@ -18,11 +18,8 @@ use function is_string;
  */
 final class CallableFactory
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
     }
 
     /**
@@ -33,7 +30,7 @@ final class CallableFactory
      * @throws InvalidListenerConfigurationException Failed to create listener.
      * @throws ContainerExceptionInterface Error while retrieving the entry from container.
      */
-    public function create($definition): callable
+    public function create(mixed $definition): callable
     {
         /** @var mixed */
         $callable = $this->prepare($definition);
@@ -46,13 +43,11 @@ final class CallableFactory
     }
 
     /**
-     * @param mixed $definition
      *
      * @throws ContainerExceptionInterface Error while retrieving the entry from container.
-     *
      * @return mixed
      */
-    private function prepare($definition)
+    private function prepare(mixed $definition)
     {
         if (is_string($definition) && $this->container->has($definition)) {
             return $this->container->get($definition);
@@ -79,7 +74,7 @@ final class CallableFactory
 
             try {
                 $reflection = new ReflectionMethod($className, $methodName);
-            } catch (ReflectionException $e) {
+            } catch (ReflectionException) {
                 return null;
             }
             if ($reflection->isStatic()) {
