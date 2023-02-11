@@ -1,4 +1,3 @@
-
 <?php
 
 declare(strict_types=1);
@@ -6,6 +5,7 @@ declare(strict_types=1);
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
+use Rector\Php80\Rector\Ternary\GetDebugTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -24,5 +24,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         ClosureToArrowFunctionRector::class,
+        GetDebugTypeRector::class,
     ]);
 };
