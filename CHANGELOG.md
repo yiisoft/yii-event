@@ -2,7 +2,6 @@
 
 ## 1.0.4 under development
 
-- Enh: Add composer require checker into CI
 - Enh #41: Raise minimum PHP version to 8.0 (@vjik, @xepozz)
 
 ## 1.0.3 June 27, 2022
