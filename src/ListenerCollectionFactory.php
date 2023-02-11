@@ -11,8 +11,10 @@ use function is_string;
 
 final class ListenerCollectionFactory
 {
-    public function __construct(private Injector $injector, private CallableFactory $callableFactory)
-    {
+    public function __construct(
+        private Injector $injector,
+        private CallableFactory $callableFactory,
+    ) {
     }
 
     /**

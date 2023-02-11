@@ -11,7 +11,7 @@ use function is_object;
 use function is_string;
 
 /**
- * ListenerConfigurationChecker could be used in development mode to check if listeners are defined correctly.
+ * `ListenerConfigurationChecker` could be used in development mode to check if listeners are defined correctly.
  *
  * ```php
  * $checker->check($configuration->get('events-web'));
@@ -19,8 +19,9 @@ use function is_string;
  */
 final class ListenerConfigurationChecker
 {
-    public function __construct(private CallableFactory $callableFactory)
-    {
+    public function __construct(
+        private CallableFactory $callableFactory,
+    ) {
     }
 
     /**

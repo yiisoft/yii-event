@@ -18,14 +18,15 @@ use function is_string;
  */
 final class CallableFactory
 {
-    public function __construct(private ContainerInterface $container)
-    {
+    public function __construct(
+        private ContainerInterface $container
+    ) {
     }
 
     /**
      * Create real callable listener from definition.
      *
-     * @param mixed $definition Defintion to create listener from.
+     * @param mixed $definition Definition to create listener from.
      *
      * @throws InvalidListenerConfigurationException Failed to create listener.
      * @throws ContainerExceptionInterface Error while retrieving the entry from container.
