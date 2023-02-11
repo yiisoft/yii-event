@@ -21,14 +21,14 @@ All you need is to use any [PSR-11](https://www.php-fig.org/psr/psr-11/) compati
 
 ## Requirements
 
-- PHP 7.4 or higher.
+- PHP 8.0 or higher.
 
 ## Installation
 
 The package could be installed with composer:
 
 ```shell
-composer require yiisoft/yii-event --prefer-dist
+composer require yiisoft/yii-event
 ```
 
 ## General usage
