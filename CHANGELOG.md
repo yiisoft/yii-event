@@ -3,6 +3,7 @@
 ## 2.0.0 under development
 
 - Chg #50: Adapt configuration group names to Yii conventions (@vjik)
+- Enh #41: Raise minimum PHP version to 8.0 (@vjik, @xepozz)
 
 ## 1.0.3 June 27, 2022
 
