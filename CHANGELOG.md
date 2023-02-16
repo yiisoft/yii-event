@@ -1,6 +1,6 @@
 # Yii Event Change Log
 
-## 2.0.0 under development
+## 2.0.0 February 16, 2023
 
 - Chg #50: Adapt configuration group names to Yii conventions (@vjik)
 - Enh #41: Raise minimum PHP version to 8.0 (@vjik, @xepozz)
