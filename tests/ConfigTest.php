@@ -51,7 +51,7 @@ final class ConfigTest extends TestCase
     {
         return new Container(
             ContainerConfig::create()->withDefinitions(
-                $this->createConfig()->get('di' . ($postfix !== null ? '-' . $postfix : ''))
+                $this->createConfig($postfix)->get('di' . ($postfix !== null ? '-' . $postfix : ''))
                 +
                 [
                     EventDispatcherInterface::class => new SimpleEventDispatcher(),
@@ -60,13 +60,13 @@ final class ConfigTest extends TestCase
         );
     }
 
-    private function createConfig(): Config
+    private function createConfig(?string $postfix = null): Config
     {
         return new Config(
             new ConfigPaths(dirname(__DIR__), 'config'),
             null,
             [],
-            null,
+            $postfix !== null ? 'params' . '-' . $postfix : null,
             '../tests/environment/.merge-plan.php'
         );
     }
