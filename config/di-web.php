@@ -9,5 +9,5 @@ use Yiisoft\Yii\Event\ListenerCollectionFactory as Factory;
 /** @var array $params */
 
 return [
-    ListenerCollection::class => static fn (Factory $factory) => $factory->create($config->get($params['yiisoft/yii-event']['eventsGroup'])),
+    ListenerCollection::class => static fn (Factory $factory) => $factory->create($config->get($params['yiisoft/yii-event']['eventsConfigGroup'])),
 ];

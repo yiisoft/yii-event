@@ -2,7 +2,7 @@
 
 ## 2.0.1 under development
 
-- Enh #61: Move events group name to component params (@olegbaturin)
+- Enh #61: Move `events` configuration group name to parameters (@olegbaturin)
 
 ## 2.0.0 February 16, 2023
 

@@ -35,12 +35,28 @@ composer require yiisoft/yii-event
 
 ### DI configuration
 
-You can see a config example in the [config directory](config):
+You can find default configuration in the [config directory](config):
 
-- [common.php](config/common.php) contains the configuration for the [PSR-14](https://www.php-fig.org/psr/psr-14/) interfaces.
-- [console.php](config/console.php) and [web.php](config/web.php) contains the configuration for the `ListenerCollectionFactory`.
+- [di.php](config/di.php) contains the configuration for the [PSR-14](https://www.php-fig.org/psr/psr-14/) interfaces.
+- [di-web.php](config/di-web.php) and [di-console.php](config/di-consle.php) contains the configuration for the `Yiisoft\EventDispatcher\Provider\ListenerCollection`.
+- [params-web.php](config/params-web.php) and [params-console.php](config/params-consle.php) contains parameters for `web` and `console` configurations.
 
-All these configs will be used automatically in projects with the [yiisoft/config](https://github.com/yiisoft/config).
+All these settings will be used automatically in projects with the [yiisoft/config](https://github.com/yiisoft/config).
+
+If you have custom `events` configuration group name, for example `events-api`, redefine it in the `eventsConfigGroup` params key.
+
+params.php
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+    'yiisoft/yii-event' => [
+        'eventsConfigGroup' => 'events-api',
+    ],
+]
+```
 
 ### Event configuration example
 

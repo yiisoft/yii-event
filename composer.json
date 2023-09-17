@@ -54,9 +54,7 @@
             "params-console": "params-console.php",
             "di": "di.php",
             "di-web": "di-web.php",
-            "di-console": "di-console.php",
-            "events-web": [],
-            "events-console": []
+            "di-console": "di-console.php"
         }
     },
     "config": {
