@@ -2,7 +2,7 @@
 
 ## 2.0.1 under development
 
-- no changes in this release.
+- Enh #61: Move `events` configuration group name to parameters (@olegbaturin)
 
 ## 2.0.0 February 16, 2023
 

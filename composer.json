@@ -50,6 +50,8 @@
             "merge-plan-file": "../tests/environment/.merge-plan.php"
         },
         "config-plugin": {
+            "params-web": "params-web.php",
+            "params-console": "params-console.php",
             "di": "di.php",
             "di-web": "di-web.php",
             "di-console": "di-console.php",
