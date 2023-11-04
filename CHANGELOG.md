@@ -1,6 +1,6 @@
 # Yii Event Change Log
 
-## 2.0.1 under development
+## 2.1.0 November 04, 2023
 
 - Enh #61: Move `events` configuration group name to parameters (@olegbaturin)
 
