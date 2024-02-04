@@ -51,7 +51,6 @@ final class ListenerConfigurationChecker
                 );
             }
 
-            /** @var mixed */
             foreach ($listeners as $listener) {
                 try {
                     if (!$this->isCallable($listener)) {
