@@ -33,7 +33,6 @@ final class CallableFactory
      */
     public function create(mixed $definition): callable
     {
-        /** @var mixed */
         $callable = $this->prepare($definition);
 
         if (is_callable($callable)) {
@@ -45,10 +44,8 @@ final class CallableFactory
 
     /**
      * @throws ContainerExceptionInterface Error while retrieving the entry from container.
-     *
-     * @return mixed
      */
-    private function prepare(mixed $definition)
+    private function prepare(mixed $definition): mixed
     {
         if (is_string($definition) && $this->container->has($definition)) {
             return $this->container->get($definition);
@@ -62,7 +59,6 @@ final class CallableFactory
             [$className, $methodName] = $definition;
 
             if (!class_exists($className) && $this->container->has($className)) {
-                /** @var mixed */
                 return [
                     $this->container->get($className),
                     $methodName,

@@ -39,11 +39,9 @@ final class ListenerCollectionFactory
                 );
             }
 
-            /** @var mixed */
             foreach ($listeners as $callable) {
                 $listener =
-                    /** @return mixed */
-                    fn (object $event) => $this->injector->invoke(
+                    fn (object $event): mixed => $this->injector->invoke(
                         $this->callableFactory->create($callable),
                         [$event]
                     );

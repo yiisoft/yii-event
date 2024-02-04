@@ -2,7 +2,7 @@
 
 ## 2.1.1 under development
 
-- no changes in this release.
+- Enh #65: Minor refactoring of `CallableFactory` and `ListenerCollectionFactory` (@vjik)
 
 ## 2.1.0 November 04, 2023
 
