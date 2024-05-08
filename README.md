@@ -25,7 +25,7 @@ All you need is to use any [PSR-11](https://www.php-fig.org/psr/psr-11/) compati
 
 ## Installation
 
-The package could be installed with composer:
+The package could be installed with [Composer](https://getcomposer.org):
 
 ```shell
 composer require yiisoft/yii-event
