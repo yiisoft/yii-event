@@ -34,7 +34,7 @@ composer require yiisoft/yii-event
 
 ### DI configuration
 
-You can find default configuration in the [config directory](config):
+You can find the default configuration in the [config directory](config):
 
 - [di.php](config/di.php) contains the configuration for the [PSR-14](https://www.php-fig.org/psr/psr-14/) interfaces.
 - [di-web.php](config/di-web.php) and [di-console.php](config/di-consle.php) contains the configuration for the `Yiisoft\EventDispatcher\Provider\ListenerCollection`.
@@ -72,13 +72,13 @@ return [
         // they will be resolved the same way as in the previous example.
         [SomeClass::class, 'staticMethodName'],
         
-        // Non-static methods are allowed too. In this case `SomeClass` will be instantiated by your DI container.
+        // Non-static methods are allowed too. In this case, `SomeClass` will be instantiated by your DI container.
         [SomeClass::class, 'methodName'],
         
         // An object of a class with the `__invoke` method implemented
         new InvokableClass(),
         
-        // In this case the `InvokableClass` with the `__invoke` method will be instantiated by your DI container
+        // In this case, the `InvokableClass` with the `__invoke` method will be instantiated by your DI container
         InvokableClass::class,
         
         // Any definition of an invokable class may be here while your `$container->has('the definition)` 
@@ -88,11 +88,11 @@ return [
 ```
 
 The dependency resolving is done in a lazy way: dependencies will not be resolved before the corresponding event
-will happen.
+happens.
 
 ### Configuration checker
 
-To help you with event listener configuration validation there is the `ListenerConfigurationChecker`. It is converting
+To help you with event listener configuration validation, there is the `ListenerConfigurationChecker`. It is converting
 your whole listener config to actual callables at once to validate it. It is intended to be used in development environment
 or in tests since it is a resource greedy operation in large projects. An `InvalidEventConfigurationFormatException`
 will be thrown if your configuration contains an invalid listener.
@@ -102,6 +102,11 @@ Usage example:
 ```php
 $checker->check($configuration->get('events-web'));
 ```
+
+## Event configuration debugging
+
+If you use the package with Yii3, `./yii debug:events` command is available.
+It shows information about events and listeners. 
 
 ## Documentation
 

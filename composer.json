@@ -42,7 +42,13 @@
         "vimeo/psalm": "^5.26",
         "yiisoft/config": "^1.3",
         "yiisoft/di": "^1.2",
-        "yiisoft/test-support": "^3.0"
+        "yiisoft/test-support": "^3.0",
+        "symfony/console": "^5.4|^6.0",
+        "symfony/var-dumper": "^5.4|^6.4"
+    },
+    "suggest": {
+        "symfony/console": "For debug:events command",
+        "symfony/var-dumper": "For debug:events command"
     },
     "autoload": {
         "psr-4": {
