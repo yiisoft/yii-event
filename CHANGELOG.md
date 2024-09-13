@@ -3,7 +3,7 @@
 ## 2.1.1 under development
 
 - Enh #65: Minor refactoring of `CallableFactory` and `ListenerCollectionFactory` (@vjik)
-- Enh #76: Raise minimum PHP version to ^8.1 and refactor code (@vjik)
+- Enh #76: Raise minimum PHP version to `^8.1` and refactor code (@vjik)
 
 ## 2.1.0 November 04, 2023
 
