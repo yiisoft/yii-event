@@ -15,5 +15,5 @@ return [
     ],
     'yiisoft/yii-console' => [
         'debug:events' => DebugEventsCommand::class,
-    ]
+    ],
 ];
