@@ -4,6 +4,7 @@
 
 - Enh #65: Minor refactoring of `CallableFactory` and `ListenerCollectionFactory` (@vjik)
 - New #73: Add `debug:events` console command (@samdark, @xepozz)
+- Enh #76: Raise minimum PHP version to `^8.1` and refactor code (@vjik)
 
 ## 2.1.0 November 04, 2023
 
