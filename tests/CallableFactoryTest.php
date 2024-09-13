@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Yii\Event\Tests;
 
 use Closure;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use stdClass;
@@ -18,7 +19,7 @@ use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
 class CallableFactoryTest extends TestCase
 {
-    public function dataArray(): array
+    public static function dataArray(): array
     {
         return [
             'base' => [[Event::class, 'register']],
@@ -27,9 +28,7 @@ class CallableFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataArray
-     */
+    #[DataProvider('dataArray')]
     public function testArray($definition): void
     {
         self::assertIsArray(
@@ -37,7 +36,7 @@ class CallableFactoryTest extends TestCase
         );
     }
 
-    public function dataInvokableObject(): array
+    public static function dataInvokableObject(): array
     {
         return [
             'base' => [new HandlerInvokable()],
@@ -45,9 +44,7 @@ class CallableFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataInvokableObject
-     */
+    #[DataProvider('dataInvokableObject')]
     public function testInvokableObject($definition): void
     {
         self::assertInstanceOf(
@@ -56,7 +53,7 @@ class CallableFactoryTest extends TestCase
         );
     }
 
-    public function dataClosure(): array
+    public static function dataClosure(): array
     {
         return [
             'closure' => [
@@ -67,9 +64,7 @@ class CallableFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataClosure
-     */
+    #[DataProvider('dataClosure')]
     public function testClosure($definition): void
     {
         self::assertInstanceOf(
@@ -78,7 +73,7 @@ class CallableFactoryTest extends TestCase
         );
     }
 
-    public function dataException(): array
+    public static function dataException(): array
     {
         return [
             'non-existent container definition' => [['test', 'register']],
@@ -94,9 +89,7 @@ class CallableFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataException
-     */
+    #[DataProvider('dataException')]
     public function testException($definition): void
     {
         $this->expectException(InvalidListenerConfigurationException::class);

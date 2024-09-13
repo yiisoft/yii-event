@@ -20,7 +20,7 @@ use function is_string;
 final class ListenerConfigurationChecker
 {
     public function __construct(
-        private CallableFactory $callableFactory,
+        private readonly CallableFactory $callableFactory,
     ) {
     }
 

@@ -19,7 +19,7 @@ use function is_string;
 final class CallableFactory
 {
     public function __construct(
-        private ContainerInterface $container
+        private readonly ContainerInterface $container
     ) {
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Yii\Event\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use stdClass;
@@ -21,7 +22,7 @@ use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
 class ListenerConfigurationCheckerTest extends TestCase
 {
-    public function badCallableProvider(): array
+    public static function badCallableProvider(): array
     {
         return [
             'non-existent container definition' => [
@@ -75,9 +76,7 @@ class ListenerConfigurationCheckerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider badCallableProvider
-     */
+    #[DataProvider('badCallableProvider')]
     public function testBadCallable($callable, string $message): void
     {
         $this->expectException(InvalidListenerConfigurationException::class);
@@ -87,11 +86,11 @@ class ListenerConfigurationCheckerTest extends TestCase
         $this->createChecker()->check([Event::class => [$callable]]);
     }
 
-    public function goodCallableProvider(): array
+    public static function goodCallableProvider(): array
     {
         return [
             'array callable' => [[Event::class, 'register']],
-            'array callable static' => [[Handler::class, 'handleStatic']],
+            'array callable static' => [Handler::handleStatic(...)],
             'array callable with object' => [[new Event(), 'register']],
             'invokable object' => [new HandlerInvokable()],
             'invokable object to instantiate' => [HandlerInvokable::class],
@@ -103,11 +102,7 @@ class ListenerConfigurationCheckerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider goodCallableProvider
-     *
-     * @param $callable
-     */
+    #[DataProvider('goodCallableProvider')]
     public function testGoodCallable($callable): void
     {
         $checker = $this->createChecker();
