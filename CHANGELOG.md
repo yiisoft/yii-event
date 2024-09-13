@@ -3,6 +3,7 @@
 ## 2.1.1 under development
 
 - Enh #65: Minor refactoring of `CallableFactory` and `ListenerCollectionFactory` (@vjik)
+- New #73: Add `debug:events` console command (@samdark, @xepozz)
 
 ## 2.1.0 November 04, 2023
 
