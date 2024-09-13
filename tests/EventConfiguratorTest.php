@@ -98,7 +98,7 @@ final class EventConfiguratorTest extends TestCase
             Event::class => [
                 ['eventAlias', 'register'],
                 [Event::class, 'register'],
-                [Handler::class, 'handleStatic'],
+                Handler::handleStatic(...),
                 [new Event(), 'register'],
                 static function (Event $event) {
                     $event->register(new stdClass());

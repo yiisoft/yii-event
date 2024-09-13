@@ -12,8 +12,8 @@ use function is_string;
 final class ListenerCollectionFactory
 {
     public function __construct(
-        private Injector $injector,
-        private CallableFactory $callableFactory,
+        private readonly Injector $injector,
+        private readonly CallableFactory $callableFactory,
     ) {
     }
 

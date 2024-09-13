@@ -91,7 +91,7 @@ class ListenerConfigurationCheckerTest extends TestCase
     {
         return [
             'array callable' => [[Event::class, 'register']],
-            'array callable static' => [[Handler::class, 'handleStatic']],
+            'array callable static' => [Handler::handleStatic(...)],
             'array callable with object' => [[new Event(), 'register']],
             'invokable object' => [new HandlerInvokable()],
             'invokable object to instantiate' => [HandlerInvokable::class],
