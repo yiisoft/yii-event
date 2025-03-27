@@ -7,6 +7,9 @@ namespace Yiisoft\Yii\Event;
 use InvalidArgumentException;
 use Yiisoft\FriendlyException\FriendlyExceptionInterface;
 
+/**
+ * @final
+ */
 class InvalidListenerConfigurationException extends InvalidArgumentException implements FriendlyExceptionInterface
 {
     public function getName(): string

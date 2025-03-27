@@ -48,7 +48,7 @@ final class EventConfiguratorTest extends TestCase
 
     public function testExecuteEventListeners(): void
     {
-        $event = new StdClass();
+        $event = new stdClass();
         $listenerCollection = $this->getListenerCollection($this->getEventsConfig());
 
         foreach ($listenerCollection->getForEvents(Event::class) as $listener) {

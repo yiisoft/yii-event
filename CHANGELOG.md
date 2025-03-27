@@ -2,6 +2,7 @@
 
 ## 2.1.1 under development
 
+- Chg #78: Change PHP constraint in `composer.json` to `8.1 - 8.4` (@vjik)
 - Enh #65: Minor refactoring of `CallableFactory` and `ListenerCollectionFactory` (@vjik)
 - Enh #76: Raise minimum PHP version to `^8.1` and refactor code (@vjik)
 

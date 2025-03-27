@@ -127,7 +127,7 @@ class ListenerConfigurationCheckerTest extends TestCase
         $this->expectExceptionMessage(sprintf('Event listeners for %s must be an iterable, stdClass given.', Event::class));
         $this->expectExceptionCode(0);
 
-        $this->createChecker()->check([Event::class => new StdClass()]);
+        $this->createChecker()->check([Event::class => new stdClass()]);
     }
 
     public function testListenersIncorrectFormat(): void
