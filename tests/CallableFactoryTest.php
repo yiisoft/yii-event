@@ -23,7 +23,7 @@ class CallableFactoryTest extends TestCase
     {
         return [
             'base' => [[Event::class, 'register']],
-            'static' => [[Handler::class, 'handleStatic']],
+            'static' => [Handler::handleStatic(...)],
             'with object' => [[new Event(), 'register']],
         ];
     }
