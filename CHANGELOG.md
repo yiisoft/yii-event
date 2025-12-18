@@ -1,6 +1,6 @@
 # Yii Event Change Log
 
-## 2.1.1 under development
+## 2.2.0 December 18, 2025
 
 - Chg #78, #81: Change PHP constraint in `composer.json` to `8.1 - 8.5` (@vjik)
 - Enh #65: Minor refactoring of `CallableFactory` and `ListenerCollectionFactory` (@vjik)
