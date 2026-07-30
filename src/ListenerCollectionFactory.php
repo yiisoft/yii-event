@@ -14,8 +14,7 @@ final class ListenerCollectionFactory
     public function __construct(
         private readonly Injector $injector,
         private readonly CallableFactory $callableFactory,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array $eventListeners Event listener list in format ['eventName1' => [$listener1, $listener2, ...]]
@@ -27,7 +26,7 @@ final class ListenerCollectionFactory
         foreach ($eventListeners as $eventName => $listeners) {
             if (!is_string($eventName)) {
                 throw new InvalidEventConfigurationFormatException(
-                    'Incorrect event listener format. Format with event name must be used.'
+                    'Incorrect event listener format. Format with event name must be used.',
                 );
             }
 
@@ -35,15 +34,15 @@ final class ListenerCollectionFactory
                 $type = get_debug_type($listeners);
 
                 throw new InvalidEventConfigurationFormatException(
-                    "Event listeners for $eventName must be an iterable, $type given."
+                    "Event listeners for $eventName must be an iterable, $type given.",
                 );
             }
 
             foreach ($listeners as $callable) {
-                $listener =
-                    fn (object $event): mixed => $this->injector->invoke(
+                $listener
+                    = fn(object $event): mixed => $this->injector->invoke(
                         $this->callableFactory->create($callable),
-                        [$event]
+                        [$event],
                     );
                 $listenerCollection = $listenerCollection->add($listener, $eventName);
             }

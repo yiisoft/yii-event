@@ -6,9 +6,7 @@ namespace Yiisoft\Yii\Event\Tests\Mock;
 
 final class Handler
 {
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function handleStatic(Event $event): void
     {

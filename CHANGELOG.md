@@ -2,7 +2,7 @@
 
 ## 2.2.1 under development
 
-- no changes in this release.
+- Enh #86: Explicitly import `Yiisoft\Config\Config` class and `sprintf()` function in "use" section (@vjik)
 
 ## 2.2.0 December 18, 2025
 

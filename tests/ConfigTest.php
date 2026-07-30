@@ -16,6 +16,8 @@ use Yiisoft\EventDispatcher\Provider\ListenerCollection;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 
+use function dirname;
+
 final class ConfigTest extends TestCase
 {
     public function testDi(): void
@@ -52,11 +54,10 @@ final class ConfigTest extends TestCase
         return new Container(
             ContainerConfig::create()->withDefinitions(
                 $this->createConfig($postfix)->get('di' . ($postfix !== null ? '-' . $postfix : ''))
-                +
-                [
+                + [
                     EventDispatcherInterface::class => new SimpleEventDispatcher(),
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -67,7 +68,7 @@ final class ConfigTest extends TestCase
             null,
             [],
             $postfix !== null ? 'params' . '-' . $postfix : null,
-            '../tests/environment/.merge-plan.php'
+            '../tests/environment/.merge-plan.php',
         );
     }
 }
