@@ -30,7 +30,7 @@ final class EventConfiguratorTest extends TestCase
                 Event::class => new Event(),
                 'eventAlias' => new Event(),
                 TestClass::class => new TestClass(),
-            ]
+            ],
         );
     }
 
@@ -124,7 +124,7 @@ final class EventConfiguratorTest extends TestCase
     {
         $factory = new ListenerCollectionFactory(
             new Injector($this->container),
-            new CallableFactory($this->container)
+            new CallableFactory($this->container),
         );
 
         return $factory->create($eventConfig);

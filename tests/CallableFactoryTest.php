@@ -57,10 +57,9 @@ class CallableFactoryTest extends TestCase
     {
         return [
             'closure' => [
-                static function () {
-                },
+                static function () {},
             ],
-            'short closure' => [static fn () => null],
+            'short closure' => [static fn() => null],
         ];
     }
 
@@ -105,7 +104,7 @@ class CallableFactoryTest extends TestCase
                 HandlerInvokable::class => new HandlerInvokable(),
                 'int' => 7,
                 'string' => 'test',
-            ])
+            ]),
         );
     }
 }

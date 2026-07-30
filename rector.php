@@ -2,32 +2,22 @@
 
 declare(strict_types=1);
 
-use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
-use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
-use Rector\Php80\Rector\Ternary\GetDebugTypeRector;
 use Rector\Php81\Rector\Array_\ArrayToFirstClassCallableRector;
-use Rector\Set\ValueObject\LevelSetList;
+use Yiisoft\CodeStyle\Rector\SetList;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withPaths([
+        __DIR__ . '/config',
         __DIR__ . '/src',
         __DIR__ . '/tests',
-    ]);
-
-    // register a single rule
-    $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
-
-    // define sets of rules
-    $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_81,
-    ]);
-
-    $rectorConfig->skip([
-        ClosureToArrowFunctionRector::class,
-        GetDebugTypeRector::class,
+    ])
+    ->withPhpSets(php81: true)
+    ->withSets([
+        SetList::YII_CORE,
+    ])
+    ->withSkip([
         ArrayToFirstClassCallableRector::class => [
             __DIR__ . '/tests/CallableFactoryTest.php',
         ],
     ]);
-};

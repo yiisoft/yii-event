@@ -20,6 +20,8 @@ use Yiisoft\Yii\Event\Tests\Mock\HandlerInvokable;
 use Yiisoft\Yii\Event\Tests\Mock\Handler;
 use Yiisoft\Yii\Event\Tests\Mock\TestClass;
 
+use function sprintf;
+
 class ListenerConfigurationCheckerTest extends TestCase
 {
     public static function badCallableProvider(): array
@@ -95,10 +97,9 @@ class ListenerConfigurationCheckerTest extends TestCase
             'invokable object' => [new HandlerInvokable()],
             'invokable object to instantiate' => [HandlerInvokable::class],
             'closure' => [
-                static function () {
-                },
+                static function () {},
             ],
-            'short closure' => [static fn () => null],
+            'short closure' => [static fn() => null],
         ];
     }
 
@@ -149,8 +150,8 @@ class ListenerConfigurationCheckerTest extends TestCase
                     HandlerInvokable::class => new HandlerInvokable(),
                     'int' => 7,
                     'string' => 'test',
-                ])
-            )
+                ]),
+            ),
         );
     }
 }

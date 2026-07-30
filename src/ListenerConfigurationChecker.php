@@ -9,6 +9,7 @@ use Psr\Container\ContainerExceptionInterface;
 use function is_array;
 use function is_object;
 use function is_string;
+use function sprintf;
 
 /**
  * `ListenerConfigurationChecker` could be used in development mode to check if listeners are defined correctly.
@@ -21,8 +22,7 @@ final class ListenerConfigurationChecker
 {
     public function __construct(
         private readonly CallableFactory $callableFactory,
-    ) {
-    }
+    ) {}
 
     /**
      * Checks the given event configuration and throws an exception in some cases:
@@ -38,8 +38,8 @@ final class ListenerConfigurationChecker
         foreach ($configuration as $eventName => $listeners) {
             if (!is_string($eventName) || !class_exists($eventName)) {
                 throw new InvalidEventConfigurationFormatException(
-                    'Incorrect event listener format. Format with event name must be used. Got ' .
-                    var_export($eventName, true) . '.'
+                    'Incorrect event listener format. Format with event name must be used. Got '
+                    . var_export($eventName, true) . '.',
                 );
             }
 
@@ -47,7 +47,7 @@ final class ListenerConfigurationChecker
                 $type = get_debug_type($listeners);
 
                 throw new InvalidEventConfigurationFormatException(
-                    "Event listeners for $eventName must be an iterable, $type given."
+                    "Event listeners for $eventName must be an iterable, $type given.",
                 );
             }
 
@@ -55,15 +55,15 @@ final class ListenerConfigurationChecker
                 try {
                     if (!$this->isCallable($listener)) {
                         throw new InvalidListenerConfigurationException(
-                            $this->createNotCallableMessage($listener)
+                            $this->createNotCallableMessage($listener),
                         );
                     }
                 } catch (ContainerExceptionInterface $exception) {
                     throw new InvalidListenerConfigurationException(
-                        'Could not instantiate event listener or listener class has invalid configuration. Got ' .
-                        $this->listenerDump($listener) . '.',
+                        'Could not instantiate event listener or listener class has invalid configuration. Got '
+                        . $this->listenerDump($listener) . '.',
                         0,
-                        $exception
+                        $exception,
                     );
                 }
             }
@@ -76,13 +76,13 @@ final class ListenerConfigurationChecker
             if (!method_exists($definition, '__invoke')) {
                 return sprintf(
                     '"__invoke" method is not defined in "%s" class.',
-                    $definition
+                    $definition,
                 );
             }
 
             return sprintf(
                 'Failed to instantiate "%s" class.',
-                $definition
+                $definition,
             );
         }
 
@@ -125,6 +125,6 @@ final class ListenerConfigurationChecker
 
     private function listenerDump(mixed $listener): string
     {
-        return is_object($listener) ? $listener::class : var_export($listener, true);
+        return get_debug_type($listener);
     }
 }
