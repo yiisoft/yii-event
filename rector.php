@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Php80\Rector\Ternary\GetDebugTypeRector;
 use Rector\Php81\Rector\Array_\ArrayToFirstClassCallableRector;
 use Yiisoft\CodeStyle\Rector\SetList;
 
@@ -20,4 +21,5 @@ return RectorConfig::configure()
         ArrayToFirstClassCallableRector::class => [
             __DIR__ . '/tests/CallableFactoryTest.php',
         ],
+        GetDebugTypeRector::class,
     ]);

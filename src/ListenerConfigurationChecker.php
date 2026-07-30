@@ -125,6 +125,6 @@ final class ListenerConfigurationChecker
 
     private function listenerDump(mixed $listener): string
     {
-        return get_debug_type($listener);
+        return is_object($listener) ? $listener::class : var_export($listener, true);
     }
 }
