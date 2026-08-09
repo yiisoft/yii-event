@@ -29,7 +29,6 @@
     "require": {
         "php": "8.1 - 8.5",
         "psr/container": "^1.0 || ^2.0",
-        "psr/event-dispatcher": "^1.0",
         "yiisoft/event-dispatcher": "^1.0",
         "yiisoft/friendly-exception": "^1.0",
         "yiisoft/injector": "^1.0"
@@ -37,6 +36,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.95",
         "phpunit/phpunit": "^10.5.45",
+        "psr/event-dispatcher": "^1.0",
         "rector/rector": "^2.2.14",
         "roave/infection-static-analysis-plugin": "^1.35",
         "shipmonk/composer-dependency-analyser": "^1.8",
