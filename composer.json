@@ -41,7 +41,7 @@
         "rector/rector": "^2.2.14",
         "shipmonk/composer-dependency-analyser": "^1.8",
         "spatie/phpunit-watcher": "^1.24",
-        "vimeo/psalm": "^5.26.1 || ^6.9.5",
+        "vimeo/psalm": "^5.26.1 || ^6.9.5 || ^7.0.0",
         "yiisoft/code-style": "^1.1",
         "yiisoft/config": "^1.6",
         "yiisoft/di": "^1.3",
